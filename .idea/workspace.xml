@@ -5,8 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/C++核心编程.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1544585129038.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1544861202252.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545017602518.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545533548532.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545533829184.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545881904150.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545882158050.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/1545985945198.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/clip_image002.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/clip_image002.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/tasks.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/binding.gyp" beforeDir="false" afterPath="$PROJECT_DIR$/binding.gyp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello.cc" beforeDir="false" afterPath="$PROJECT_DIR$/hello.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ho.cc" beforeDir="false" afterPath="$PROJECT_DIR$/ho.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ho.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ho.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/zna/hello.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello.node" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,19 +90,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/code/node-addon/node-addon-qing&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MTConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "D:/code/node-addon/node-addon-qing",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "MTConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\node-addon\node-addon-qing" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -92,7 +119,7 @@
       <updated>1697293320304</updated>
       <workItem from="1697293321146" duration="169000" />
       <workItem from="1697293679178" duration="630000" />
-      <workItem from="1697296155470" duration="1074000" />
+      <workItem from="1697296155470" duration="4653000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>
@@ -108,7 +135,21 @@
       <option name="project" value="LOCAL" />
       <updated>1697295898380</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init 6">
+      <created>1697297703229</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697297703229</updated>
+    </task>
+    <task id="LOCAL-00004" summary="init 7">
+      <created>1697297932974</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697297932974</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +183,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="init 2" />
     <MESSAGE value="init 5" />
-    <option name="LAST_COMMIT_MESSAGE" value="init 5" />
+    <MESSAGE value="init 6" />
+    <MESSAGE value="init 7" />
+    <option name="LAST_COMMIT_MESSAGE" value="init 7" />
   </component>
 </project>

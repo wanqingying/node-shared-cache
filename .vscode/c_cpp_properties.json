@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "D:/code/boost/boost_1_83_0",
                 "C:/Users/wanqingying/AppData/Roaming/npm/node_modules/node-addon-api",
                 "${workspaceFolder}/**"
             ],
@@ -15,7 +16,15 @@
             "compilerPath": "D:\\code\\mingw\\mingw64\\bin\\g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerArgs": [
+                "-ID:/code/boost/boost_1_83_0"
+            ],
+            "forcedInclude": [],
+            "compileCommands": "",
+            "browse": {
+                "path": []
+            }
         }
     ],
     "version": 4

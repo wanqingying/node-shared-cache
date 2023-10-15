@@ -2,9 +2,10 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++.exe 生成活动文件",
+            "label": "C/C++: g++.exe 生成活动文件vg++",
             "command": "D:\\code\\mingw\\mingw64\\bin\\g++.exe",
             "args": [
+                "-ID:/code/boost/boost_1_83_0",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
@@ -21,6 +22,26 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "detail": "调试器生成的任务。"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cpp.exe 生成活动文件",
+            "command": "D:\\code\\mingw\\mingw64\\bin\\cpp.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
             "detail": "调试器生成的任务。"
         }
     ],
