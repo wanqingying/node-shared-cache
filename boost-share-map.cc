@@ -26,41 +26,99 @@ private:
     // bip::segment_manager
     // bip::segment_manager *sm;
     MyMap *mymap;
+    std::string shm_name;
+    int shm_size;
 
 public:
-    BoostShareMap(std::string name, int size){
-        managed_shm = new bip::managed_shared_memory(bip::open_or_create, name.c_str(), size);
-        mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+    BoostShareMap(std::string name, int size, bool remove = false)
+    {
+        // print init
+        std::cout << "BoostShareMap init" << std::endl;
+        shm_name = name;
+        shm_size = size;
+        if (remove)
+        {
+            bip::shared_memory_object::remove(shm_name.c_str());
+        }
+        try
+        {
+            managed_shm = new bip::managed_shared_memory(bip::open_or_create, name.c_str(), size);
+            mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
-    ~BoostShareMap(){
+    ~BoostShareMap()
+    {
         // remove shared memory
         // bip::shared_memory_object::remove("Highscore");
     }
-    void insert(std::string key, std::string value){
-        auto *sm = managed_shm->get_segment_manager();
-        ValueType v1 = std::make_pair(ShmString(key.c_str(), sm), ShmString(value.c_str(), sm));
-        // insert
-        mymap->insert(v1);
+    void insert(std::string key, std::string value)
+    {
+        try
+        {
+            auto *sm = managed_shm->get_segment_manager();
+            ValueType v1 = std::make_pair(ShmString(key.c_str(), sm), ShmString(value.c_str(), sm));
+            // insert
+            mymap->insert(v1);
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << "Error inserting into shared memory: " << e.what() << std::endl;
+        }
     }
-    void print(){
+    void print()
+    {
         // print map
         for (auto it = mymap->begin(); it != mymap->end(); it++)
         {
             std::cout << it->first << " " << it->second << std::endl;
         }
     }
-    std::string* get(std::string key){
+    std::string *get(std::string key)
+    {
         auto it = mymap->find(ShmString(key.c_str(), managed_shm->get_segment_manager()));
         if (it != mymap->end())
         {
-            const char* value = it->second.c_str();
+            const char *value = it->second.c_str();
             return new std::string(value);
         }
         // return null
         return nullptr;
     }
+    void remove(std::string key)
+    {
+        mymap->erase(ShmString(key.c_str(), managed_shm->get_segment_manager()));
+    }
+    void destroy()
+    {
+        // remove shared memory
+        bip::shared_memory_object::remove(shm_name.c_str());
+    }
+    void autoGrow()
+    {
+        // auto grow
+        managed_shm->grow(shm_name.c_str(), 1024);
+    }
+    void autoShrink()
+    {
+        try
+        {
+            managed_shm->shrink_to_fit(shm_name.c_str());
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr<<"shrink_to_fit error " << e.what() << '\n';
+        }
+    }
+    // get managed_shm size
+    int size()
+    {
+        return managed_shm->get_size();
+    }
 };
-
 
 int main2(int argc, char const *argv[])
 {
@@ -99,12 +157,22 @@ int main2(int argc, char const *argv[])
 
 int main()
 {
-    BoostShareMap *bsm = new BoostShareMap("Highscore", 1024);
+    BoostShareMap *bsm = new BoostShareMap("Highscore", 1024, true);
     bsm->insert("key1", "value1");
     bsm->insert("key2", "value2");
 
     // bsm->print();
-    bsm->get("key1");
+    bsm->print();
+    // print size
+    std::cout << "size=" << bsm->size() << std::endl;
+    bsm->autoGrow();
+    // size
+    std::cout << "size=" << bsm->size() << std::endl;
+    bsm->autoShrink();
+    // size
+    std::cout << "size=" << bsm->size() << std::endl;
+    // insert 
+    bsm->insert("key3", "value3");
 
     std::cout << *bsm->get("key1") << std::endl;
 }

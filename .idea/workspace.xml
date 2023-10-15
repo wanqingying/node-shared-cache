@@ -5,29 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/C++核心编程.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1544585129038.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1544861202252.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545017602518.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545533548532.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545533829184.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545881904150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545882158050.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/1545985945198.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/clip_image002.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/clip_image002.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/tasks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/binding.gyp" beforeDir="false" afterPath="$PROJECT_DIR$/binding.gyp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-map.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-map.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hello.cc" beforeDir="false" afterPath="$PROJECT_DIR$/hello.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ho.cc" beforeDir="false" afterPath="$PROJECT_DIR$/ho.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ho.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ho.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/zna/hello.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello.node" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/hello.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +99,7 @@
       <updated>1697293320304</updated>
       <workItem from="1697293321146" duration="169000" />
       <workItem from="1697293679178" duration="630000" />
-      <workItem from="1697296155470" duration="4653000" />
+      <workItem from="1697296155470" duration="5375000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>
@@ -149,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697297932974</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="init 8">
+      <created>1697381431010</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697381431010</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +172,7 @@
     <MESSAGE value="init 5" />
     <MESSAGE value="init 6" />
     <MESSAGE value="init 7" />
-    <option name="LAST_COMMIT_MESSAGE" value="init 7" />
+    <MESSAGE value="init 8" />
+    <option name="LAST_COMMIT_MESSAGE" value="init 8" />
   </component>
 </project>
