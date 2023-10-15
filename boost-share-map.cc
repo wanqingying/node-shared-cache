@@ -18,8 +18,15 @@ typedef std::pair<const ShmString, ShmString> ValueType;
 typedef bip::allocator<ValueType, bip::managed_shared_memory::segment_manager> ShmAllocator;
 typedef bip::map<ShmString, ShmString, std::less<ShmString>, ShmAllocator> MyMap;
 
+// memory page size
+
 class BoostShareMap
 {
+    // linux memory page size
+    static const int PAGE_SIZE = 1024 * 4;
+    // max alloc memory size 4G
+    // static const int FULL_MAX_SIZE = 1024 * 4 * 1024 * 1024;
+
 private:
     /* data */
     bip::managed_shared_memory *managed_shm;
@@ -28,6 +35,7 @@ private:
     MyMap *mymap;
     std::string shm_name;
     int shm_size;
+    int max_size = 1024*1024;
 
 public:
     BoostShareMap(std::string name, int size, bool remove = false)
@@ -61,8 +69,21 @@ public:
         {
             auto *sm = managed_shm->get_segment_manager();
             ValueType v1 = std::make_pair(ShmString(key.c_str(), sm), ShmString(value.c_str(), sm));
-            // insert
-            mymap->insert(v1);
+            auto pair = mymap->insert(v1);
+            if (!pair.second)
+            {
+                // exist key replace
+                mymap->erase(pair.first);
+                mymap->insert(v1);
+            }
+        }
+        catch (bip::bad_alloc)
+        {
+            this->autoGrow();
+        }
+        catch (std::length_error)
+        {
+            this->autoGrow();
         }
         catch (const std::exception &e)
         {
@@ -99,8 +120,42 @@ public:
     }
     void autoGrow()
     {
+        int old_size = managed_shm->get_size();
+        int grow_size = 0;
+        // print old_size max_size
+        std::cout << "old_size = " << old_size << ", max_size = " << max_size << std::endl;
+        // print page_size
+        std::cout << "page_size = " << PAGE_SIZE << std::endl;
+        if (old_size >= max_size)
+        {
+            std::cout << "memory reach max size" << std::endl;
+            return;
+        }
+        if (old_size < PAGE_SIZE * 1024)
+        {
+            // <4MB auto grow x2
+            grow_size = old_size * 2;
+        }
+        else if (old_size < PAGE_SIZE * 1024 * 100)
+        {
+            // 4MB-400MB auto grow 400KB
+            grow_size = old_size + PAGE_SIZE * 100;
+        }
+        else
+        {
+            // 400MB-4GB auto grow 4MB
+            grow_size = old_size + PAGE_SIZE * 1024;
+        }
+        // grow_size min 4kb
+        if (grow_size < PAGE_SIZE)
+        {
+            grow_size = PAGE_SIZE;
+        }
+
+        // print 
+        std::cout << "auto grow  size =  " << grow_size << std::endl;
         // auto grow
-        managed_shm->grow(shm_name.c_str(), 1024);
+        managed_shm->grow(shm_name.c_str(), grow_size);
     }
     void autoShrink()
     {
@@ -110,7 +165,7 @@ public:
         }
         catch (const std::exception &e)
         {
-            std::cerr<<"shrink_to_fit error " << e.what() << '\n';
+            std::cerr << "shrink_to_fit error " << e.what() << '\n';
         }
     }
     // get managed_shm size
@@ -160,19 +215,14 @@ int main()
     BoostShareMap *bsm = new BoostShareMap("Highscore", 1024, true);
     bsm->insert("key1", "value1");
     bsm->insert("key2", "value2");
-
+    bsm->insert("key1", "value1v1");
     // bsm->print();
     bsm->print();
-    // print size
-    std::cout << "size=" << bsm->size() << std::endl;
-    bsm->autoGrow();
-    // size
-    std::cout << "size=" << bsm->size() << std::endl;
     bsm->autoShrink();
-    // size
-    std::cout << "size=" << bsm->size() << std::endl;
-    // insert 
-    bsm->insert("key3", "value3");
+    bsm->insert("key1", "value1v2");
+
 
     std::cout << *bsm->get("key1") << std::endl;
+    // print size
+    std::cout << "size = " << bsm->size() << std::endl;
 }

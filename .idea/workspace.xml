@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boost-share-map.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-map.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello.cc" beforeDir="false" afterPath="$PROJECT_DIR$/hello.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/hello.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,7 @@
       <updated>1697293320304</updated>
       <workItem from="1697293321146" duration="169000" />
       <workItem from="1697293679178" duration="630000" />
-      <workItem from="1697296155470" duration="5375000" />
+      <workItem from="1697296155470" duration="6735000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>
@@ -136,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697381431010</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="init 9">
+      <created>1697383057843</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697383057843</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +179,7 @@
     <MESSAGE value="init 6" />
     <MESSAGE value="init 7" />
     <MESSAGE value="init 8" />
-    <option name="LAST_COMMIT_MESSAGE" value="init 8" />
+    <MESSAGE value="init 9" />
+    <option name="LAST_COMMIT_MESSAGE" value="init 9" />
   </component>
 </project>
