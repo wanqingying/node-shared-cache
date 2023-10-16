@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="">
+    <list default="true" id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="init 9">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imgs/img.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/c_cpp_properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/tasks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/binding.gyp" beforeDir="false" afterPath="$PROJECT_DIR$/binding.gyp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boost-share-map.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-map.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello.cc" beforeDir="false" afterPath="$PROJECT_DIR$/hello.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/hello.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ho.cc" beforeDir="false" afterPath="$PROJECT_DIR$/ho.cc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +69,7 @@
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -73,7 +84,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/code/node-addon/node-addon-qing",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/wanqingying/IdeaProjects/node-addon/node-shared-map",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -85,6 +97,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="D:\code\node-addon\node-addon-qing" />
     </key>
   </component>
@@ -99,6 +112,7 @@
       <workItem from="1697293321146" duration="169000" />
       <workItem from="1697293679178" duration="630000" />
       <workItem from="1697296155470" duration="6735000" />
+      <workItem from="1697428997652" duration="2694000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>

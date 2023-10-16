@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <boost/container/map.hpp>
+// #include <boost/container/map.hpp>
 
 using namespace std;
 
@@ -26,7 +26,7 @@ public:
     return hello;
   }
 
-  Hello &operator-(auto)
+  Hello &operator-(int)
   {
     // print not support
     std::cout << "operator- not support" << std::endl;

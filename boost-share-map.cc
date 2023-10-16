@@ -6,6 +6,8 @@
 #include <boost/interprocess/containers/pair.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/segment_manager.hpp>
+#include <boost/interprocess/sync/named_sharable_mutex.hpp>
+#include <boost/interprocess/sync/named_condition.hpp>
 
 namespace dtl = boost::container::dtl;
 
@@ -35,23 +37,28 @@ private:
     MyMap *mymap;
     std::string shm_name;
     int shm_size;
-    int max_size = 1024*1024;
+    int max_size = 1024 * 1024;
+    bip::named_sharable_mutex *mutex;
+    bool isMaster = false;
 
 public:
-    BoostShareMap(std::string name, int size, bool remove = false)
+    BoostShareMap(std::string name, int size, bool isMaster = false)
     {
         // print init
         std::cout << "BoostShareMap init" << std::endl;
+        std::string mtx_name = shm_name + "_mtx";
         shm_name = name;
         shm_size = size;
-        if (remove)
+        if (isMaster)
         {
             bip::shared_memory_object::remove(shm_name.c_str());
+            bip::named_sharable_mutex::remove(mtx_name.c_str());
         }
         try
         {
             managed_shm = new bip::managed_shared_memory(bip::open_or_create, name.c_str(), size);
             mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+            mutex = new bip::named_sharable_mutex(bip::open_or_create, mtx_name.c_str());
         }
         catch (const std::exception &e)
         {
@@ -60,13 +67,24 @@ public:
     }
     ~BoostShareMap()
     {
-        // remove shared memory
-        // bip::shared_memory_object::remove("Highscore");
+        if (isMaster)
+        {
+            // remove shared memory
+            bip::shared_memory_object::remove(shm_name.c_str());
+            // remove mutex
+            std::string mtx_name = shm_name + "_mtx";
+            bip::named_sharable_mutex::remove(mtx_name.c_str());
+        }
     }
-    void insert(std::string key, std::string value)
+
+    void insert(std::string &key, std::string &value, bool retry = true)
     {
+        // key.size +value.size
+        int pairSize = key.size() + value.size();
         try
         {
+            // lock
+            mutex->lock();
             auto *sm = managed_shm->get_segment_manager();
             ValueType v1 = std::make_pair(ShmString(key.c_str(), sm), ShmString(value.c_str(), sm));
             auto pair = mymap->insert(v1);
@@ -76,19 +94,26 @@ public:
                 mymap->erase(pair.first);
                 mymap->insert(v1);
             }
-        }
-        catch (bip::bad_alloc)
-        {
-            this->autoGrow();
-        }
-        catch (std::length_error)
-        {
-            this->autoGrow();
+            mutex->unlock();
         }
         catch (const std::exception &e)
         {
             std::cerr << "Error inserting into shared memory: " << e.what() << std::endl;
+            this->autoGrow(pairSize);
+            // insert again
+            mutex->unlock();
+            if (retry)
+            {
+                this->insert(key, value, false);
+            }
         }
+    }
+    void insert(const std::string &key, const std::string &value)
+    {
+        // this.insert
+        std::string k = key;
+        std::string v = value;
+        this->insert(k, v);
     }
     void print()
     {
@@ -98,16 +123,31 @@ public:
             std::cout << it->first << " " << it->second << std::endl;
         }
     }
-    std::string *get(std::string key)
+    std::string *get(std::string &key)
     {
-        auto it = mymap->find(ShmString(key.c_str(), managed_shm->get_segment_manager()));
-        if (it != mymap->end())
+        try
         {
-            const char *value = it->second.c_str();
-            return new std::string(value);
+            // share lock
+            mutex->lock_sharable();
+            auto it = mymap->find(ShmString(key.c_str(), managed_shm->get_segment_manager()));
+            if (it != mymap->end())
+            {
+                const char *value = it->second.c_str();
+                mutex->unlock_sharable();
+                return new std::string(value);
+            }
         }
-        // return null
+        catch (const std::exception &e)
+        {
+            std::cerr << "Error get key " << key << e.what() << '\n';
+            mutex->unlock_sharable();
+        }
         return nullptr;
+    }
+    std::string *get(const std::string &key)
+    {
+        std::string k = key;
+        return this->get(k);
     }
     void remove(std::string key)
     {
@@ -118,7 +158,7 @@ public:
         // remove shared memory
         bip::shared_memory_object::remove(shm_name.c_str());
     }
-    void autoGrow()
+    void autoGrow(int min_size = 0)
     {
         int old_size = managed_shm->get_size();
         int grow_size = 0;
@@ -152,7 +192,12 @@ public:
             grow_size = PAGE_SIZE;
         }
 
-        // print 
+        if (min_size > 0 && grow_size < min_size)
+        {
+            grow_size = min_size;
+        }
+
+        // print
         std::cout << "auto grow  size =  " << grow_size << std::endl;
         // auto grow
         managed_shm->grow(shm_name.c_str(), grow_size);
@@ -175,54 +220,22 @@ public:
     }
 };
 
-int main2(int argc, char const *argv[])
+int main3()
 {
-    // // create a shared memory map by boost map
-    // typedef bip::allocator<char, bip::managed_shared_memory::segment_manager> CharAllocator;
-    // typedef bip::basic_string<char, std::char_traits<char>, CharAllocator> ShmString;
-    // typedef bip::allocator<ShmString, bip::managed_shared_memory::segment_manager> StringAllocator;
-    // typedef std::pair<const ShmString, ShmString> ValueType;
-    // typedef bip::allocator<ValueType, bip::managed_shared_memory::segment_manager> ShmAllocator;
-    // typedef bip::map<ShmString, ShmString, std::less<ShmString>, ShmAllocator> MyMap;
-
-    // remove shared memory
-    // bip::shared_memory_object::remove("Highscore");
-
-    // // create shared memory
-    // bip::managed_shared_memory managed_shm(bip::create_only, "Highscore", 1024);
-
-    // // create allocator
-    // // create map
-    // MyMap *mymap = managed_shm.find_or_construct<MyMap>("MyMap")(managed_shm.get_segment_manager());
-
-    // segment_manager *sm = managed_shm.get_segment_manager();
-
-    // ValueType v1 = std::make_pair(ShmString("key1", sm), ShmString("value1", sm));
-    // // insert
-    // mymap->insert(v1);
-
-    // // print map
-    // for (auto it = mymap->begin(); it != mymap->end(); it++)
-    // {
-    //     std::cout << it->first << " " << it->second << std::endl;
-    // }
-
-    // return 0;
-}
-
-int main()
-{
-    BoostShareMap *bsm = new BoostShareMap("Highscore", 1024, true);
+    BoostShareMap *bsm = new BoostShareMap("Highscore", 2048, true);
     bsm->insert("key1", "value1");
     bsm->insert("key2", "value2");
-    bsm->insert("key1", "value1v1");
+    // print
+    std::cout << "inser large string" << std::endl;
+
     // bsm->print();
     bsm->print();
-    bsm->autoShrink();
-    bsm->insert("key1", "value1v2");
+    // bsm->autoShrink();
+    // bsm->insert("key1", "vxxx");
+    bsm->insert("key1", std::string(2048 * 2, 'a'));
+    std::string k2 = "key1";
 
-
-    std::cout << *bsm->get("key1") << std::endl;
+    std::cout << *bsm->get(k2) << std::endl;
     // print size
     std::cout << "size = " << bsm->size() << std::endl;
 }

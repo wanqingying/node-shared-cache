@@ -25,6 +25,23 @@
             "browse": {
                 "path": []
             }
+        },
+        {
+            "name": "macos-arm64-gcc",
+            "includePath": [
+                "${myDefaultIncludePath}",
+                "${workspaceFolder}/**",
+                "/Users/wanqingying/Downloads/boost_1_83_0",
+                "/Users/wanqingying/IdeaProjects/node-addon-examples/1_hello_world/node-addon-api"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-gcc-arm64",
+            "compilerPath": "/Library/Developer/CommandLineTools/usr/bin/g++"
         }
     ],
     "version": 4
