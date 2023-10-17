@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <boost/container/map.hpp>
+#include <boost/compute/detail/lru_cache.hpp>
 #include <functional>
 #include <algorithm>
 
