@@ -25,7 +25,7 @@ typedef bip::map<ShmString, ShmString, std::less<ShmString>, ShmAllocator> MyMap
 class BoostShareMap
 {
     // linux memory page size
-    static const int PAGE_SIZE = 1024 * 4;
+    static const int BP_SIZE = 1024 * 4;
     // max alloc memory size 4G
     // static const int FULL_MAX_SIZE = 1024 * 4 * 1024 * 1024;
 
@@ -165,31 +165,31 @@ public:
         // print old_size max_size
         std::cout << "old_size = " << old_size << ", max_size = " << max_size << std::endl;
         // print page_size
-        std::cout << "page_size = " << PAGE_SIZE << std::endl;
+        std::cout << "page_size = " << BP_SIZE << std::endl;
         if (old_size >= max_size)
         {
             std::cout << "memory reach max size" << std::endl;
             return;
         }
-        if (old_size < PAGE_SIZE * 1024)
+        if (old_size < BP_SIZE * 1024)
         {
             // <4MB auto grow x2
             grow_size = old_size * 2;
         }
-        else if (old_size < PAGE_SIZE * 1024 * 100)
+        else if (old_size < BP_SIZE * 1024 * 100)
         {
             // 4MB-400MB auto grow 400KB
-            grow_size = old_size + PAGE_SIZE * 100;
+            grow_size = old_size + BP_SIZE * 100;
         }
         else
         {
             // 400MB-4GB auto grow 4MB
-            grow_size = old_size + PAGE_SIZE * 1024;
+            grow_size = old_size + BP_SIZE * 1024;
         }
         // grow_size min 4kb
-        if (grow_size < PAGE_SIZE)
+        if (grow_size < BP_SIZE)
         {
-            grow_size = PAGE_SIZE;
+            grow_size = BP_SIZE;
         }
 
         if (min_size > 0 && grow_size < min_size)
@@ -220,7 +220,8 @@ public:
     }
 };
 
-int main3()
+
+int main()
 {
     BoostShareMap *bsm = new BoostShareMap("Highscore", 2048, true);
     bsm->insert("key1", "value1");

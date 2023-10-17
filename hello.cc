@@ -52,6 +52,12 @@ Napi::String MethodSet(const Napi::CallbackInfo &info)
   return Napi::String::New(env, "ok");
 }
 
+Napi::Value MethodGetAnyType(const Napi::CallbackInfo &info)
+{
+  Napi::Env env = info.Env();
+  return Napi::Number::New(env, 589);
+}
+
 Napi::String MethodOpen(const Napi::CallbackInfo &info)
 {
   bool arg0 = info[0].As<Napi::Boolean>().Value();
@@ -77,6 +83,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 
   exports.Set(Napi::String::New(env, "open"),
               Napi::Function::New(env, MethodOpen));
+
+  exports.Set(Napi::String::New(env, "getAnyType"), Napi::Function::New(env, MethodGetAnyType));
   return exports;
 }
 

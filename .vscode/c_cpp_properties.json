@@ -1,48 +1,46 @@
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
-                "D:/code/boost/boost_1_83_0",
-                "C:/Users/wanqingying/AppData/Roaming/npm/node_modules/node-addon-api",
-                "${workspaceFolder}/**"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "windowsSdkVersion": "10.0.22621.0",
-            "compilerPath": "D:\\code\\mingw\\mingw64\\bin\\g++.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-x64",
-            "compilerArgs": [
-                "-ID:/code/boost/boost_1_83_0"
-            ],
-            "forcedInclude": [],
-            "compileCommands": "",
-            "browse": {
-                "path": []
-            }
-        },
-        {
-            "name": "macos-arm64-gcc",
-            "includePath": [
-                "${myDefaultIncludePath}",
-                "${workspaceFolder}/**",
-                "/Users/wanqingying/Downloads/boost_1_83_0",
-                "/Users/wanqingying/IdeaProjects/node-addon-examples/1_hello_world/node-addon-api"
-            ],
-            "defines": [],
-            "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
-            ],
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "macos-gcc-arm64",
-            "compilerPath": "/Library/Developer/CommandLineTools/usr/bin/g++"
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "macos-clang-arm64",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "windowsSdkVersion": "10.0.22621.0",
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c11",
+      "cppStandard": "c++11",
+      "intelliSenseMode": "macos-clang-arm64",
+      "compilerArgs": [
+        "-ID:/code/boost/boost_1_83_0"
+      ],
+      "forcedInclude": [],
+      "compileCommands": "",
+      "browse": {
+        "path": []
+      }
+    },
+    {
+      "name": "macos-arm64-gcc",
+      "includePath": [
+        "${myDefaultIncludePath}",
+        "${workspaceFolder}/**",
+        "/Users/wanqingying/Downloads/boost_1_83_0",
+        "/Users/wanqingying/IdeaProjects/node-addon-examples/1_hello_world/node-addon-api"
+      ],
+      "defines": [],
+      "macFrameworkPath": [
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+      ],
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-gcc-arm64",
+      "compilerPath": "/Library/Developer/CommandLineTools/usr/bin/g++"
+    }
+  ],
+  "version": 4
 }

@@ -2,4 +2,7 @@ node_modules
 output
 build
 
+*.dSYM/*
+*.out
+out
 *.exe

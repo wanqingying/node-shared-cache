@@ -5,6 +5,7 @@
             "label": "C/C++: g++.exe 生成活动文件vg++",
             "command": "D:\\code\\mingw\\mingw64\\bin\\g++.exe",
             "args": [
+                "-std=c++17",
                 "-ID:/code/boost/boost_1_83_0",
                 "-fdiagnostics-color=always",
                 "-g",
@@ -49,11 +50,12 @@
             "label": "C/C++:mac-task g++ 生成活动文件",
             "command": "/usr/bin/g++",
             "args": [
+                "-std=c++17",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/out/${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${fileDirname}"

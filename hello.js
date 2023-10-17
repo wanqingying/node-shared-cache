@@ -8,18 +8,16 @@ async function wait(n) {
     });
 }
 
-addon.open(true)
+// addon.open(true)
 // console.log(require('node-addon-api').include)
 
 async function test() {
-    for (let i = 0; i < 100; i++) {
-        await wait(20);
-        addon.set("keyv1", JSON.stringify(json1))   
-    }
+  console.log('any = ',addon.getAnyType())
 }
 
 test().finally(() => {
-    console.log("keyv1=", addon.get("keyv1"))
+
+    // console.log("keyv1=", addon.get("keyv1"))
 
     console.log('end')
 })
