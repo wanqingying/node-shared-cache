@@ -11,6 +11,7 @@
         "cflags": [
             "-std=c++17",
         ],
+        "ldflags": ["-std=c++17",],
         "include_dirs": [
             "/Users/wanqingying/Downloads/boost_1_83_0",
             "/home/ubuntu/boost/boost_1_83_0",
