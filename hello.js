@@ -1,4 +1,4 @@
-var addon = require('bindings')('hello');
+var addon = require('./build/Release/hello.node');
 
 async function wait(n) {
     return new Promise((resolve, reject) => {
@@ -12,7 +12,15 @@ async function wait(n) {
 // console.log(require('node-addon-api').include)
 
 async function test() {
-  console.log('any = ',addon.getAnyType())
+  console.log(addon.hello())
+  var obj = new addon.NodeShareCache("Highscore");
+  obj.setMaxAge(4000);
+  obj.setLogLevel(2);
+  obj.set("key1", "value1") 
+  await wait(1000);
+  console.log("key1=", obj.get("key1"))
+  await wait(1000);
+  console.log("key1=", obj.get("key1"))
 }
 
 test().finally(() => {

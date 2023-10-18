@@ -30,8 +30,8 @@ typedef bip::pair<long, TDataType> PValueType;
 typedef PairTemp<PValueType> TPairType;
 typedef bip::allocator<TPairType, bip::managed_shared_memory::segment_manager> ShmAllocator;
 typedef bip::map<PKeyType, PValueType, std::less<ShmString>, ShmAllocator> MyMap;
-// memory page size
 
+// todo test for this
 int getDataSize(TDataType &v)
 {
     if (std::holds_alternative<bool>(v))
@@ -42,13 +42,13 @@ int getDataSize(TDataType &v)
     {
         return sizeof(double);
     }
-    else if (std::holds_alternative<std::string>(v))
+    else if (auto str_ptr = std::get_if<std::string>(&v))
     {
-        return std::get<std::string>(v).size();
+        return str_ptr->size();
     }
-    else if (std::holds_alternative<ShmString>(v))
+    else if (auto shm_str_ptr = std::get_if<ShmString>(&v))
     {
-        return std::get<ShmString>(v).size();
+        return shm_str_ptr->size();
     }
     return 0;
 }
@@ -139,94 +139,133 @@ public:
     }
 };
 
-class BoostShareMap
+class BoostShareCache
 {
     // linux memory page size
     static const long BP_SIZE = 1024 * 4;
     // max alloc memory size 4G
     // static const int FULL_MAX_SIZE = 1024 * 4 * 1024 * 1024;
 
-private:
+public:
     /* data */
     bip::managed_shared_memory *managed_shm;
     // bip::segment_manager
     // bip::segment_manager *sm;
     MyMap *mymap;
+    long *last_clean_time;
+    int *grow_tag;
+    int grow_count = 0;
+
     std::string shm_name;
-    int shm_size;
-    // 4GB
-    long max_size = BP_SIZE * 1024 * 1024;
+    long shm_size;
+    // default 800MB
+    long max_size = BP_SIZE * 1024 * 200;
     BoostNamedShareMutex *share_mutex;
+    // for nodejs fork
     bool isMaster = false;
     // milliseconds
     long max_age = 2000;
-    long last_clean_time = nnd::get_current_time_millis();
 
 public:
     nnd::ShmLog *slog = new nnd::ShmLog();
 
+private:
+    void getResource(long size)
+    {
+        this->managed_shm = new bip::managed_shared_memory(bip::open_or_create, this->shm_name.c_str(), size);
+        this->mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+        this->last_clean_time = managed_shm->find_or_construct<long>("last_clean_time")(nnd::get_current_time_millis());
+        this->grow_tag = managed_shm->find_or_construct<int>("grow_tag")(0);
+    }
+    void getResource()
+    {
+        this->getResource(this->shm_size);
+    }
+    long getLastCleanTime()
+    {
+        return *this->last_clean_time;
+    }
+    void setLastCleanTime()
+    {
+        *this->last_clean_time = nnd::get_current_time_millis();
+    }
+    bool isGrowTagNotOk()
+    {
+        return *this->grow_tag == 1;
+    }
+    void setGrowTagEnter()
+    {
+        *this->grow_tag = 1;
+    }
+    void setGrowTagOut()
+    {
+        *this->grow_tag = 0;
+    }
+
 public:
-    BoostShareMap(std::string name, int size, bool renew = false)
+    BoostShareCache(std::string name, int size, bool renew = false)
     {
         // print init
-        std::cout << "BoostShareMap init" << std::endl;
+        this->slog->info("BoostShareCache init");
         std::string mtx_name = shm_name + "_mtx";
         shm_name = name;
         shm_size = size;
-        this->share_mutex = new BoostNamedShareMutex(mtx_name);
         if (renew)
         {
             bip::shared_memory_object::remove(shm_name.c_str());
         }
         try
         {
-            managed_shm = new bip::managed_shared_memory(bip::open_or_create, name.c_str(), size);
-            mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+            this->getResource();
+            this->share_mutex = new BoostNamedShareMutex(mtx_name, renew);
         }
         catch (const std::exception &e)
         {
-            std::cerr << e.what() << '\n';
+            this->slog->error("BoostShareCache init error ", e.what());
         }
     }
-    ~BoostShareMap()
+    ~BoostShareCache()
     {
         if (isMaster)
         {
             // remove shared memory
-            bip::shared_memory_object::remove(shm_name.c_str());
+            // bip::shared_memory_object::remove(shm_name.c_str());
         }
     }
 
-    void insert(std::string &key, TDataType &value, bool retry = true, long max_age = 2000)
+    void insert(std::string &key, TDataType &value, bool retry = true)
     {
-        // key.size +value.size
-        int pairSize = key.size() + getDataSize(value);
         try
         {
             this->share_mutex->lock();
             auto *sm = managed_shm->get_segment_manager();
             PValueType pv;
-            long expire_at = nnd::get_current_time_millis() + max_age;
-            if (std::holds_alternative<bool>(value))
+            long expire_at = nnd::get_current_time_millis() + this->max_age;
+
+            if (auto bool_ptr = std::get_if<bool>(&value))
             {
-                pv = std::make_pair(expire_at, std::get<bool>(value));
+                pv = std::make_pair(expire_at, *bool_ptr);
             }
-            else if (std::holds_alternative<double>(value))
+            else if (auto double_ptr = std::get_if<double>(&value))
             {
-                pv = std::make_pair(expire_at, std::get<double>(value));
+                pv = std::make_pair(expire_at, *double_ptr);
             }
-            else if (std::holds_alternative<std::string>(value))
+            else if (auto str_ptr = std::get_if<std::string>(&value))
             {
-                pv = std::make_pair(expire_at, ShmString(std::get<std::string>(value).c_str(), sm));
+                pv = std::make_pair(expire_at, ShmString(str_ptr->c_str(), sm));
+            }
+            else if (auto shm_str_ptr = std::get_if<ShmString>(&value))
+            {
+                pv = std::make_pair(expire_at, *shm_str_ptr);
             }
             else
             {
-                this->slog->debug("insert error value type");
+                this->slog->error("insert error unsupport value type ", typeid(value).name());
+                this->share_mutex->unlock();
                 return;
             }
 
             TPairType pair = std::make_pair(ShmString(key.c_str(), sm), pv);
-
             auto newPair = mymap->insert(pair);
             if (!newPair.second)
             {
@@ -239,9 +278,8 @@ public:
         {
 
             this->share_mutex->unlock();
-            // debug + key
             this->slog->debug("handleInsertLost key=", key);
-
+            int pairSize = key.size() + getDataSize(value);
             this->handleInsertLost(pairSize);
 
             if (retry)
@@ -275,30 +313,27 @@ public:
         TDataType v = buildType(value);
         this->insert(key, v);
     }
-    void insert(std::string &key, std::string &value)
-    {
-        TDataType v = buildType(value);
-        this->insert(key, v);
-    }
-    void print()
-    {
-        // print map
-        for (auto it = mymap->begin(); it != mymap->end(); it++)
-        {
-            // std::cout << it->first << " " << it->second.second << std::endl;
-        }
-    }
+    // void insert(std::string &key, std::string &value)
+    // {
+    //     TDataType v = buildType(value);
+    //     this->insert(key, v);
+    // }
 
     void cleanKeys()
     {
+        this->slog->debug("cleanKeys start");
+        // should lock before check time
+        // void muti process clean at same time
+        this->share_mutex->lock();
         long now_t = nnd::get_current_time_millis();
-        if (now_t - last_clean_time < 1000)
+        if (now_t - *this->last_clean_time < 2000)
         {
+            this->share_mutex->unlock();
             return;
         }
 
-        this->slog->debug("start cleanKeys free=", std::to_string(this->managed_shm->get_free_memory()));
-        this->share_mutex->lock();
+        this->slog->debug("start cleanKeys");
+        this->printUsage();
 
         for (auto it = mymap->begin(); it != mymap->end();)
         {
@@ -318,6 +353,7 @@ public:
             long expireAt = v.first;
             if (now_t > expireAt)
             {
+                this->slog->debug("cleanKeys erase key=", it->first.c_str());
                 mymap->erase(it++);
             }
             else
@@ -325,17 +361,11 @@ public:
                 it++;
             }
         }
+        this->setLastCleanTime();
         this->share_mutex->unlock();
-        unsigned long freeSize = this->managed_shm->get_free_memory();
-        this->last_clean_time = now_t;
-        long total_size = this->managed_shm->get_size();
-        long free_size = this->managed_shm->get_free_memory();
-        this->slog->debug("start cleanKeys free=", std::to_string(free_size));
-        if (free_size > total_size / 2 && total_size > BP_SIZE * 1024 * 10)
-        {
-            // if free size > 50% and total size > 40MB means there is more than 20MB to free
-            this->autoShrink();
-        }
+        this->slog->debug("end cleanKeys ");
+        this->printUsage();
+        this->autoShrink();
     }
     void forceCleanKeys(long min_size)
     {
@@ -372,7 +402,6 @@ public:
     }
     TDataType *get(std::string &key)
     {
-
         try
         {
             this->share_mutex->lock_sharable();
@@ -380,24 +409,30 @@ public:
             if (it != mymap->end())
             {
                 TDataType *value = &it->second.second;
-                this->share_mutex->unlock_sharable();
+
                 long expireAt = it->second.first;
                 long now_t = nnd::get_current_time_millis();
                 if (now_t > expireAt)
                 {
+                    this->share_mutex->unlock_sharable();
                     this->handleExpireKey(*it);
                     return nullptr;
                 }
-
+                this->share_mutex->unlock_sharable();
                 return value;
+            }
+            else
+            {
+                this->share_mutex->unlock_sharable();
+                return nullptr;
             }
         }
         catch (const std::exception &e)
         {
-            std::cerr << "Error get key " << key << e.what() << '\n';
+            this->slog->error("get error key=", key);
             this->share_mutex->unlock_sharable();
+            return nullptr;
         }
-        return nullptr;
     }
     TDataType *get(const std::string &key)
     {
@@ -413,7 +448,7 @@ public:
         }
         catch (const std::exception &e)
         {
-           this->slog->error("remove error key=", key);
+            this->slog->error("remove error key=", key);
         }
         this->share_mutex->unlock();
     }
@@ -423,6 +458,15 @@ public:
     }
     bool autoGrow(long min_size = 0)
     {
+        // should check mechine memory but not implement,  set max_size careful
+        if (this->isGrowTagNotOk())
+        {
+            this->slog->debug("autoGrow skip");
+            // other process is growing
+            return true;
+        }
+        // auto grow can not be multi process call
+        // because lock is not shareable
         // expensive operation , do not call frequently
         // this will copy all data to new memory ,so we make a large grow size
         long old_size = managed_shm->get_size();
@@ -462,34 +506,50 @@ public:
         }
 
         this->share_mutex->lock();
+        this->setGrowTagEnter();
         try
         {
             this->slog->debug("autoGrow old_size_kb=", std::to_string(old_size / 1024));
             this->slog->debug("autoGrow grow_size_kb=", std::to_string(grow_size / 1024));
             int res = managed_shm->grow(shm_name.c_str(), grow_size);
-            this->managed_shm = new bip::managed_shared_memory(bip::open_or_create, shm_name.c_str(), grow_size + old_size);
-            this->mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
+            this->getResource(old_size + grow_size);
         }
         catch (const std::exception &e)
         {
             std::cerr << 'Error auto grow ' << e.what() << '\n';
             std::cerr << 'old_size=' << old_size << " grow_size=" << grow_size << e.what() << '\n';
         }
+        this->setGrowTagOut();
         this->share_mutex->unlock();
+        this->grow_count++;
         this->slog->debug("autoGrow new_size_kb=", std::to_string(this->managed_shm->get_size() / 1024));
         return true;
     }
     void autoShrink()
     {
-        // expensive operation , do not call frequently
+        long total_size = this->managed_shm->get_size();
+        long free_size = this->managed_shm->get_free_memory();
+        this->slog->debug("autoShrink start");
+        this->printUsage();
+
+        // must lock before isShrink check
+        // avoid multi process shrink at same time
         this->share_mutex->lock();
+        bool isShrink = free_size > total_size / 2 && total_size > BP_SIZE * 1024 * 10;
+        if (!isShrink)
+        {
+            this->share_mutex->unlock();
+            return;
+        }
+
         try
         {
             managed_shm->shrink_to_fit(shm_name.c_str());
+            this->getResource();
         }
         catch (const std::exception &e)
         {
-            std::cerr << "shrink_to_fit error " << e.what() << '\n';
+            this->slog->error("autoShrink error ", e.what());
         }
         this->share_mutex->unlock();
     }
@@ -506,14 +566,23 @@ public:
     {
         this->max_age = age;
     }
+    void setMaxSize(long size)
+    {
+        this->max_size = size;
+    }
     void setLock(bool lock)
     {
         this->share_mutex->setEnable(lock);
+    }
+    void setLogLevel(nnd::ShmLog::ELevel level)
+    {
+        this->slog->setLevel(level);
     }
     void handleInsertLost(int insert_size)
     {
         this->cleanKeys();
         bool grow = this->autoGrow(insert_size * 2);
+        this->printUsage();
         const long free_size = this->managed_shm->get_free_memory();
         if (!grow)
         {
@@ -525,14 +594,28 @@ public:
     void handleExpireKey(TPairType &pair)
     {
         long now_t = nnd::get_current_time_millis();
-        if (now_t - last_clean_time > 5000)
+        if (now_t - *this->last_clean_time > 2000)
         {
+
             this->cleanKeys();
         }
         else
         {
-            mymap->erase(pair.first);
+            this->share_mutex->lock();
+            try
+            {
+                mymap->erase(pair.first);
+            }
+            catch (const std::exception &e)
+            {
+                this->slog->error("handleExpireKey erase error key=", pair.first.c_str());
+            }
+            this->share_mutex->unlock();
         }
+    }
+    void printGrowCont()
+    {
+        this->slog->info("grow_count="+ std::to_string(this->grow_count));
     }
 };
 
@@ -544,22 +627,25 @@ void printVt(TDataType &v)
         std::cout << "null" << std::endl;
         return;
     }
-
-    if (std::holds_alternative<bool>(v))
+    if (auto bool_ptr = std::get_if<bool>(&v))
     {
-        std::cout << std::get<bool>(v) << std::endl;
+        std::cout << *bool_ptr << std::endl;
     }
-    else if (std::holds_alternative<double>(v))
+    else if (auto double_ptr = std::get_if<double>(&v))
     {
-        std::cout << std::get<double>(v) << std::endl;
+        std::cout << *double_ptr << std::endl;
     }
-    else if (std::holds_alternative<std::string>(v))
+    else if (auto str_ptr = std::get_if<std::string>(&v))
     {
-        std::cout << std::get<std::string>(v) << std::endl;
+        std::cout << *str_ptr << std::endl;
     }
-    else if (std::holds_alternative<ShmString>(v))
+    else if (auto shm_str_ptr = std::get_if<ShmString>(&v))
     {
-        std::cout << std::get<ShmString>(v) << std::endl;
+        std::cout << shm_str_ptr->c_str() << std::endl;
+    }
+    else
+    {
+        std::cout << "unsupport type" << std::endl;
     }
 }
 
@@ -569,14 +655,19 @@ void printL(std::string k, double l)
     std::cout << k << " = " << l << std::endl;
 }
 
-void insert30MB(BoostShareMap *bsm)
+void insert30MB(BoostShareCache *bsm)
 {
     std::string bs = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
-    for (int i = 0; i < 100000; i++)
+    for (int i = 0; i < 10; i++)
     {
+
         std::string key = "key" + std::to_string(i);
         std::string value = bs + std::to_string(i);
         bsm->insert(key, std::string(value));
+        long cont = bsm->managed_shm->get_free_memory();
+        bsm->slog->info("insert30MB free=" + std::to_string(cont));
+        bsm->get("key" + std::to_string(i-2));
+        sleep(1);
     }
 }
 
@@ -584,28 +675,24 @@ int main()
 {
     try
     {
-        BoostShareMap *bsm = new BoostShareMap("Highscore", 1024, true);
+        BoostShareCache *bsm = new BoostShareCache("Highscore", 4096 * 4, true);
+        bsm->slog->info("start");
+        bsm->setLogLevel(nnd::ShmLog::ELevel::DEBUG);
         std::string vrrr = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
-
-        // insert
-        // bsm->insert("k", 3.4);
+        bsm->setMaxAge(100);
+        // bsm->setLock(false);
         bsm->insert("k1", vrrr);
         bsm->insert("k2", vrrr + vrrr);
         bsm->insert("k3", vrrr + vrrr + vrrr);
 
-        // get + print
-        // printVt(*bsm->get("k1"));
         insert30MB(bsm);
         std::cout << " after usage " << std::endl;
         bsm->printUsage();
         sleep(1);
         std::cout << " after 1s " << std::endl;
-        bsm->cleanKeys();
-        bsm->printUsage();
-        sleep(2);
         std::cout << " after 2s " << std::endl;
         bsm->cleanKeys();
-        bsm->printUsage();
+        bsm->printGrowCont();
     }
     catch (const std::exception &e)
     {

@@ -40,7 +40,7 @@ public:
   }
 
   // h++
-  Hello& operator++(int)
+  Hello &operator++(int)
   {
     this->a++;
     this->b++;
@@ -48,9 +48,9 @@ public:
   }
   Hello operator++()
   {
-    // print 
+    // print
     std::cout << "operator++ 1" << std::endl;
-    Hello tmp=*this;
+    Hello tmp = *this;
     std::cout << "operator++ 2" << std::endl;
     this->a++;
     this->b++;
@@ -81,7 +81,7 @@ public:
   // copy constructor
   Hello(const Hello &h)
   {
-    // print 
+    // print
     std::cout << "copy constructor" << std::endl;
     this->a = h.a;
     this->b = h.b;
@@ -125,17 +125,19 @@ void printStr(std::string &str)
   std::cout << "str=" << str << std::endl;
 }
 
+void printInt(int *p)
+{
+  // print address and value
+  std::cout << "p=" << p << std::endl;
+  std::cout << "*p=" << *p << std::endl;
+}
+
 int main()
 {
-  std::cout << "Hello World v66!" << std::endl;
+  int *p = new int(3);
+  printInt(p);
+  *p = 4;
+  printInt(p);
 
-  Hello oh;
-  std::cout << oh << std::endl;
-  oh++;
-  std::cout << oh << std::endl;
-  Hello oh2= ++oh;
-  std::cout << oh2 << std::endl;
-  std::cout << oh << std::endl;
-  oh("vvvvvvv");
   return 0;
 }

@@ -12,6 +12,7 @@ namespace nnd
     using std::chrono::milliseconds;
     using std::chrono::seconds;
     using std::chrono::system_clock;
+
     long get_current_time_millis()
     {
         auto millisec_since_epoch = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
@@ -20,10 +21,18 @@ namespace nnd
 
     class ShmLog
     {
+    public:
+        static enum ELevel {
+            DEBUG = 1,
+            INFO,
+            ERROR
+        };
+
     private:
         /* data */
 
         std::string prefix = "";
+        ELevel level = DEBUG;
 
     public:
         ShmLog(/* args */)
@@ -31,8 +40,18 @@ namespace nnd
         }
         ~ShmLog() {}
 
+        void setLevel(ELevel level)
+        {
+            this->level = level;
+        }
+
         void info(std::string msg)
         {
+            if (this->level > INFO)
+            {
+                return;
+            }
+
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [INFO] "
@@ -40,6 +59,10 @@ namespace nnd
         }
         void info(const char *msg)
         {
+            if (this->level > INFO)
+            {
+                return;
+            }
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [INFO] "
@@ -47,6 +70,10 @@ namespace nnd
         }
         void debug(const char *msg)
         {
+            if (this->level > DEBUG)
+            {
+                return;
+            }
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [DEBUG] "
@@ -54,6 +81,10 @@ namespace nnd
         }
         void debug(std::string msg)
         {
+            if (this->level > DEBUG)
+            {
+                return;
+            }
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [DEBUG] "
@@ -61,6 +92,10 @@ namespace nnd
         }
         void debug(const char *msg, std::string msg2)
         {
+            if (this->level > DEBUG)
+            {
+                return;
+            }
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [DEBUG] "
@@ -68,6 +103,10 @@ namespace nnd
         }
         void error(const char *msg, std::string msg2)
         {
+            if (this->level > ERROR)
+            {
+                return;
+            }
             std::time_t t = std::time(nullptr);
             std::tm tm = *std::localtime(&t);
             std::cout << std::put_time(&tm, "%Y-%m-%d %H:%M:%S") << " [ERROR] "
@@ -75,6 +114,10 @@ namespace nnd
         }
         void error(const char *msg)
         {
+            if (this->level > ERROR)
+            {
+                return;
+            }
             std::string msg2 = "";
             return this->error(msg, msg2);
         }
