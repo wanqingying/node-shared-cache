@@ -1,8 +1,10 @@
 # Nodejs Shared Memory Map
 
 a shared memory cache for nodejs, support grow/shrink, read/write lock
-
-
+1. with this, every process QPS 4W+  and pipe 400MB/s data
+2. i try use ipc(process.send message) to share cache ,but QPS 4k and pipe 50MB/s
+3. i try use mmap or other lib, but no read/write lock so is hard to sync even crash or stuck
+4. comfort for nodejs server with fork() process, local cache
 
 ## Installation
 
