@@ -560,8 +560,7 @@ public:
         }
         catch (const std::exception &e)
         {
-            std::cerr << 'Error auto grow ' << e.what() << '\n';
-            std::cerr << 'old_size=' << old_size << " grow_size=" << grow_size << e.what() << '\n';
+            this->slog->info("autoGrow error " + std::string(e.what()));
         }
         this->setGrowTagOut();
         // this->share_mutex->unlock();
@@ -714,10 +713,8 @@ int main()
 {
     try
     {
-        int v = fork();
         // print v
-        std::cout << "v=" << v << std::endl;
-        BoostShareCache *bsm = new BoostShareCache("Highscore", 4096, v != 0);
+        BoostShareCache *bsm = new BoostShareCache("Highscore", 4096, true);
         bsm->slog->info("start");
         bsm->setLogLevel(nnd::ShmLog::ELevel::DEBUG);
         std::string vrrr = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
@@ -730,7 +727,6 @@ int main()
         insert30MB(bsm);
         std::cout << " after usage " << std::endl;
         bsm->printUsage();
-        sleep(1);
         std::cout << " after 1s " << std::endl;
         std::cout << " after 2s " << std::endl;
         bsm->cleanKeys();
