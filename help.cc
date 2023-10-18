@@ -18,15 +18,15 @@ namespace nnd
         return millisec_since_epoch;
     }
 
+    enum ELevel
+    {
+        DEBUG = 1,
+        INFO,
+        ERROR
+    };
+
     class ShmLog
     {
-    public:
-        static enum ELevel {
-            DEBUG = 1,
-            INFO,
-            ERROR
-        };
-
     private:
         /* data */
 

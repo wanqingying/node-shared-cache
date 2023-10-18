@@ -554,7 +554,7 @@ public:
             this->slog->debug("autoGrow grow_size_kb=", std::to_string(grow_size / 1024));
             int tag = *this->grow_tag;
             long last_c_time = *this->last_clean_time;
-            int res = managed_shm->grow(shm_name.c_str(), grow_size);
+            managed_shm->grow(shm_name.c_str(), grow_size);
             this->getResource(old_size + grow_size, tag, last_c_time);
             this->setVersionPlus();
         }
@@ -622,7 +622,7 @@ public:
     {
         this->share_mutex->setEnable(lock);
     }
-    void setLogLevel(nnd::ShmLog::ELevel level)
+    void setLogLevel(nnd::ELevel level)
     {
         this->slog->setLevel(level);
     }
@@ -632,7 +632,6 @@ public:
     
         bool grow = this->autoGrow(insert_size * 2);
         this->printUsage();
-        const long free_size = this->managed_shm->get_free_memory();
         if (!grow)
         {
             this->slog->debug("out of memory try forceclean ");
@@ -660,11 +659,6 @@ public:
 void printVt(TDataType &v)
 {
 
-    if (&v == nullptr)
-    {
-        std::cout << "null" << std::endl;
-        return;
-    }
     if (auto bool_ptr = std::get_if<bool>(&v))
     {
         std::cout << *bool_ptr << std::endl;
@@ -716,7 +710,7 @@ int main()
         // print v
         BoostShareCache *bsm = new BoostShareCache("Highscore", 4096, true);
         bsm->slog->info("start");
-        bsm->setLogLevel(nnd::ShmLog::ELevel::DEBUG);
+        bsm->setLogLevel(nnd::ELevel::DEBUG);
         std::string vrrr = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
         bsm->setMaxAge(100);
         // bsm->setLock(false);

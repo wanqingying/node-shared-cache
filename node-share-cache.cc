@@ -137,7 +137,7 @@ private:
 
         Napi::Number sizeNum = info[0].As<Napi::Number>();
         int lv = sizeNum.Int32Value();
-        this->bsc->setLogLevel(static_cast<nnd::ShmLog::ELevel>(lv));
+        this->bsc->setLogLevel(static_cast<nnd::ELevel>(lv));
         return Napi::Number::New(info.Env(), 1);
     }
 
