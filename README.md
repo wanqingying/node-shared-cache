@@ -1,23 +1,7 @@
 # Nodejs Shared Memory Map
 
-benchmark results:
+a shared memory cache for nodejs, support grow/shrink, read/write lock
 
-test with 8 child process use read/write lock
-[![Build Status](imgs/img.png)](https://travis-ci.org/allenluce/mmap-object)
-
-really-fast shm-based sharing of Javascript map among multiple
-processes.
-
-use boost managed_shared_memory+map to share data between processes.
-
-use boost interprocess named_sharable_mutex to lock read/write.
-
-
-
-
-## usage
-
-## 
 
 
 ## Installation
@@ -27,22 +11,70 @@ use boost interprocess named_sharable_mutex to lock read/write.
 ## Usage
 
 ```javascript
-const map = require('node-share-map')
+const addon = require('../build/Release/hello.node');
+const cluster = require('node:cluster');
 
-map.open(true);
-const shared_object = new Shared.Create('filename')
-map.set('key',JSON.stringify({a:1,b:2}));
-console.log(map.get('key'));
 
-// todo del xxx
+class ShmObject {
+    cache = null;
+    constructor() {
+        if (cluster.isMaster || cluster.isPrimary) {
+            // careful only master set true to reset memory 
+            this.cache = new addon.NodeShareCache("Highscorev3", 1024 * 100, true);
+        } else {
+            // child process set false 
+            this.cache = new addon.NodeShareCache("Highscorev3", 1024 * 100, false);
+        }
+        // cache expire time
+        this.cache.setMaxAge(40000);
+        // enable lock
+        this.cache.setLock(true);
+
+    }
+    get(key) {
+        return this.cache.get(key);
+    }
+    set(key, value) {
+        return this.cache.set(key, value);
+    }
+}
+
+module.exports = ShmObject;
+
 
 ```
 
+## API
+1. get/set with key , base data operation
+2. setMaxAge , set max age for data expire,default 2000ms
+3. setMaxSize , set max memory allocation size, default 800MB
+4. setLock(bool), enable/disable lock
+> can be disable when read only to improve performance  
+> !!!!can nooooot disable when write, cause crash or stuck
+
+
 ## memory allocation
-// <4MB auto grow x2
-// 4MB-400MB auto grow 400KB
-// 400MB-4GB auto grow 4MB
-// and custome grow
+
+### grow
+1.  <4MB auto grow x2 
+2.  4MB-400MB auto grow 400KB
+3.  400MB-4GB auto grow 4MB
+4.  and custome grow
+
+### shrink
+when clean up, and free memory more than 40MB
+shrink to fit the size of data
 
 ## read/write lock
-// todo
+1. read with shared lock    
+2. write with exclusive lock
+3. no timeout lock support (toto later add)
+4. memory grow/shrink with exclusive lock
+
+## benchmark
+1. 5 child process , read only
+   ![read_only](imgs/read_only.png)
+2. 5 child process , read+write
+   ![write_only](imgs/read_and_write.png)
+3. 5 child process , read first
+   ![write_only](imgs/read_first.png)

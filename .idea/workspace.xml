@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/tasks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp.cc" beforeDir="false" afterPath="$PROJECT_DIR$/temp.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imgs/read_and_write.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imgs/read_first.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imgs/read_only.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgs/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +113,7 @@
       <workItem from="1697293321146" duration="169000" />
       <workItem from="1697293679178" duration="630000" />
       <workItem from="1697296155470" duration="6735000" />
-      <workItem from="1697428997652" duration="10620000" />
+      <workItem from="1697428997652" duration="13426000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>
@@ -169,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697552030007</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="init v3">
+      <option name="closed" value="true" />
+      <created>1697628324204</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1697628324204</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,7 +198,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/main" />
                       </list>
                     </value>
                   </entry>
@@ -209,6 +221,7 @@
     <MESSAGE value="init 9" />
     <MESSAGE value="init 10" />
     <MESSAGE value="init 12" />
-    <option name="LAST_COMMIT_MESSAGE" value="init 12" />
+    <MESSAGE value="init v3" />
+    <option name="LAST_COMMIT_MESSAGE" value="init v3" />
   </component>
 </project>

@@ -104,6 +104,7 @@ async function boot() {
                 .add(
                     'CacheTestRead',
                     async function (deferred) {
+                        // await wait();
                         const ki = Math.floor(Math.random() * kcont);
 
                         try {
@@ -123,14 +124,16 @@ async function boot() {
                                 typeof cache.get('new_key'),
                                 cache.get('new_key'),
                             );
+                        }finally {
+                            // deferred.resolve();
                         }
                     },
-                    { defer: false, maxTime: 1 },
+                    { defer: false, maxTime: 2 },
                 )
                 .add(
                     'CacheTestWrite',
                     async function (deferred) {
-                        // await wait(1);
+                        await wait(2);
                         const ki = Math.floor(Math.random() * kcont*100);
                         try {
                             cache.set('new_key' + ki, JSON.stringify(exampleJson));
@@ -142,11 +145,11 @@ async function boot() {
                                 cache.get('new_key'),
                             );
                         } finally {
-                            // deferred.resolve();
+                            deferred.resolve();
                         }
 
                     },
-                    { defer: false, maxTime: 1 },
+                    { defer: true, maxTime: 2 },
                 )
                 .on('complete', async function (event) {
                     const res = cache.get('new_key');
@@ -185,7 +188,7 @@ async function boot() {
                     );
                     process.exit(0);
                 })
-                .run({ async: false, maxTime: 1 });
+                .run({ async: false, maxTime: 2 });
         }
         runSuit();
     }
