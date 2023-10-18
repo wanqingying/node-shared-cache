@@ -51,9 +51,9 @@ module.exports = ShmObject;
 2. setMaxAge , set max age for data expire,default 2000ms
 3. setMaxSize , set max memory allocation size, default 800MB
 4. setLock(bool), enable/disable lock
-> can be disable when read only to improve performance  
-> !!!!can nooooot disable when write, cause crash or stuck
-
+   > can be disable when read only to improve performance  
+   > !!!!can nooooot disable when write, cause crash or stuck
+5. setLogLevel(1,2,3) , show detail logs
 
 ## memory allocation
 
