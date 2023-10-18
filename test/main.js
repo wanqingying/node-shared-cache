@@ -59,7 +59,7 @@ async function boot() {
 
         let errCont = 0;
         async function read() {
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 2; i++) {
                 await wait(Math.round(Math.random() * 3));
 
                 // console.log('read-start ' + id);
@@ -82,7 +82,7 @@ async function boot() {
             }
         }
         async function write() {
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 2; i++) {
                 // console.log('set-start ' + id);
                 cache.set('new_key', JSON.stringify(exampleJson));
                 // console.log('set-end ' + id);
@@ -93,9 +93,7 @@ async function boot() {
 
         // Promise.all([read(), write()]).finally(() => {
         //   console.log(
-        //     `work ${id} done 读数据错误次数=${errCont} 耗时=${
-        //       Date.now().valueOf() - _now
-        //     }`,
+        //     `work ${id} done 读数据错误次数=${errCont} `,
         //   );
         // });
 
@@ -133,7 +131,7 @@ async function boot() {
                 .add(
                     'CacheTestWrite',
                     async function (deferred) {
-                        await wait(2);
+                        // await wait(0);
                         const ki = Math.floor(Math.random() * kcont*100);
                         try {
                             cache.set('new_key' + ki, JSON.stringify(exampleJson));
@@ -145,11 +143,11 @@ async function boot() {
                                 cache.get('new_key'),
                             );
                         } finally {
-                            deferred.resolve();
+                            // deferred.resolve();
                         }
 
                     },
-                    { defer: true, maxTime: 2 },
+                    { defer: false, maxTime: 2 },
                 )
                 .on('complete', async function (event) {
                     const res = cache.get('new_key');

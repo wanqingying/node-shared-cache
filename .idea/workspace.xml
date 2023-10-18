@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/zna/hello-linux-x86_64.node" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello-linux.node" beforeDir="false" afterPath="$PROJECT_DIR$/zna/hello-linux-arm_64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +94,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\node-addon\node-addon-qing\zna" />
       <recent name="$PROJECT_DIR$" />
       <recent name="D:\code\node-addon\node-addon-qing" />
     </key>
@@ -237,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697643683588</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="init v11">
+      <created>1697644181733</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1697644181733</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +289,7 @@
     <MESSAGE value="init v5" />
     <MESSAGE value="init v9" />
     <MESSAGE value="init v10" />
-    <option name="LAST_COMMIT_MESSAGE" value="init v10" />
+    <MESSAGE value="init v11" />
+    <option name="LAST_COMMIT_MESSAGE" value="init v11" />
   </component>
 </project>

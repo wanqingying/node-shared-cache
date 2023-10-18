@@ -74,9 +74,17 @@ shrink to fit the size of data
 4. memory grow/shrink with exclusive lock
 
 ## benchmark
-1. 5 child process , read only
+5 child process , read only, macbook pro 
+
    ![read_only](imgs/read_only.png)
-2. 5 child process , read+write
+
+5 child process , read+write, macbook pro
+
    ![write_only](imgs/read_and_write.png)
-3. 5 child process , read first
+
+5 child process , read first, macbook pro
+
    ![write_only](imgs/read_first.png)
+   
+5 child process , write first, win64 i5-12490 
+![img.png](imgs/win64-read-write.PNG)

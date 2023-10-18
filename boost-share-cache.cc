@@ -712,19 +712,18 @@ int main()
         bsm->slog->info("start");
         bsm->setLogLevel(nnd::ELevel::DEBUG);
         std::string vrrr = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
-        bsm->setMaxAge(100);
+        // bsm->setMaxAge(100);
         // bsm->setLock(false);
         bsm->insert("k1", vrrr);
         bsm->insert("k2", vrrr + vrrr);
         bsm->insert("k3", vrrr + vrrr + vrrr);
 
-        insert30MB(bsm);
+        // insert30MB(bsm);
         std::cout << " after usage " << std::endl;
         bsm->printUsage();
         std::cout << " after 1s " << std::endl;
         std::cout << " after 2s " << std::endl;
         bsm->cleanKeys();
-        bsm->printGrowCont();
     }
     catch (const std::exception &e)
     {
