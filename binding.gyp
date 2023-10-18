@@ -15,7 +15,8 @@
             "/Users/wanqingying/Downloads/boost_1_83_0",
             "/home/ubuntu/boost/boost_1_83_0",
             "/usr/local/include",
-            "/Users/wanqingying/IdeaProjects/node-addon/node-shared-map/node_modules/node-addon-api"
+            "/Users/wanqingying/IdeaProjects/node-addon/node-shared-map/node_modules/node-addon-api",
+              "<!@(node -p \"require('node-addon-api').include\")"
         ],
         "libraries": [],
         "OTHER_CFLAGS": [  # for Mac builds
