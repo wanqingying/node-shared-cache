@@ -1,5 +1,7 @@
 const { Event, Suite, Target } = require('benchmark');
-const ShmCache = require('./manager.js');
+// const ShmCache = require('./manager.js');
+const { ShmCache } = require('../target/addon');
+
 const { exampleJson } = require('./json.js');
 
 
@@ -29,10 +31,11 @@ function waiteExit() {
     })
 }
 const kcont = 10;
+const config = { size: 2048, maxAge: 20000, maxSize: 1024 * 1024 * 10 }
 
 async function boot() {
     if (cluster.isMaster || cluster.isPrimary) {
-        const cache = new ShmCache();
+        const cache = new ShmCache(config);
 
         cache.set('new_key_t', 'value ok');
 
@@ -51,7 +54,7 @@ async function boot() {
 
     } else {
         const id = cluster.worker.id;
-        const cache = new ShmCache();
+        const cache = new ShmCache(config);
         console.info(`work ${id} start `, cache.get('new_key_t'));
 
         await wait(20 - id);
@@ -104,64 +107,42 @@ async function boot() {
             console.log('runSuit read first ================pid=', id);
             var suite = new Benchmark.Suite();
             suite
-                // .add(
-                //     'CacheTestRead',
-                //     async function (deferred) {
-                //         // await wait();
-                //         const ki = Math.floor(Math.random() * kcont);
+                .add(
+                    'CacheTestRead',
+                    async function (deferred) {
+                        // await wait();
+                        const ki = Math.floor(Math.random() * kcont);
 
-                //         try {
-                //             readCont++;
-                //             const b = cache.get('new_key' + ki);
-                //             try {
-                //                 const obj = JSON.parse(b);
-                //                 if (obj.expId !== exampleJson.expId) {
-                //                     throw new Error('obj.expId !== exampleJson.expId');
-                //                 }
-                //             } catch (e) {
-                //                 errCont++;
-                //             }
-                //         } catch (e) {
-                //             console.log(
-                //                 'read new key error',
-                //                 e.message,
-                //                 typeof cache.get('new_key'),
-                //                 cache.get('new_key'),
-                //             );
-                //         } finally {
-                //             // deferred.resolve();
-                //         }
-                //     },
-                //     { defer: false },
-                // )
-                // .add(
-                //     'CacheTestWrite',
-                //     async function (deferred) {
-                //         await wait(1);
-                //         const ki = Math.floor(Math.random() * kcont * 100);
-                        
-                //         try {
-                //             writeCont++;
-                //             cache.set('new_key' + ki, JSON.stringify(exampleJson));
-                //         } catch (e) {
-                //             console.log(
-                //                 'read new key error',
-                //                 e.message,
-                //                 typeof cache.get('new_key'),
-                //                 cache.get('new_key'),
-                //             );
-                //         } finally {
-                //             deferred.resolve();
-                //         }
-
-                //     },
-                //     { defer: true },
-                // )
+                        try {
+                            readCont++;
+                            const b = cache.get('new_key' + ki);
+                            try {
+                                const obj = JSON.parse(b);
+                                if (obj.expId !== exampleJson.expId) {
+                                    throw new Error('obj.expId !== exampleJson.expId');
+                                }
+                            } catch (e) {
+                                errCont++;
+                            }
+                        } catch (e) {
+                            console.log(
+                                'read new key error',
+                                e.message,
+                                typeof cache.get('new_key'),
+                                cache.get('new_key'),
+                            );
+                        } finally {
+                            // deferred.resolve();
+                        }
+                    },
+                    { defer: false },
+                )
                 .add(
                     'CacheTestWrite',
                     async function (deferred) {
-                        // await wait(1);
-                        const ki = Math.floor(Math.random() * kcont * 100);
+                        await wait(2);
+                        const ki = Math.floor(Math.random() * kcont * 20000);
+
                         try {
                             writeCont++;
                             cache.set('new_key' + ki, JSON.stringify(exampleJson));
@@ -173,12 +154,34 @@ async function boot() {
                                 cache.get('new_key'),
                             );
                         } finally {
-                            // deferred.resolve();
+                            deferred.resolve();
                         }
 
                     },
-                    { defer: false },
+                    { defer: true },
                 )
+                // .add(
+                //     'CacheTestWrite',
+                //     async function (deferred) {
+                //         // await wait(1);
+                //         const ki = Math.floor(Math.random() * kcont * 100);
+                //         try {
+                //             writeCont++;
+                //             cache.set('new_key' + ki, JSON.stringify(exampleJson));
+                //         } catch (e) {
+                //             console.log(
+                //                 'read new key error',
+                //                 e.message,
+                //                 typeof cache.get('new_key'),
+                //                 cache.get('new_key'),
+                //             );
+                //         } finally {
+                //             // deferred.resolve();
+                //         }
+
+                //     },
+                //     { defer: false },
+                // )
                 .on('complete', async function (event) {
                     const res = cache.get('new_key');
                     let obj = {};

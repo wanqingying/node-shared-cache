@@ -403,9 +403,9 @@ public:
     }
     void forceCleanKeys(long min_size)
     {
-        this->share_mutex->lock();
         this->slog->debug("forceCleanKeys start size=" + std::to_string(min_size));
         this->printUsage();
+        this->share_mutex->lock();
         long clean_size = 0;
         // min 8MB
         long x_size = BP_SIZE * 1024 * 2;
@@ -613,7 +613,7 @@ public:
     }
     void printUsage()
     {
-        this->slog->info("total_size=" + std::to_string(this->managed_shm->get_size()) + " free_size=" + std::to_string(this->managed_shm->get_free_memory()));
+        this->slog->debug("total_size=" + std::to_string(this->managed_shm->get_size()) + " free_size=" + std::to_string(this->managed_shm->get_free_memory()));
     }
     void setMaxAge(long age)
     {
@@ -640,7 +640,6 @@ public:
         if (!grow)
         {
             this->slog->debug("out of memory try forceclean ");
-            this->printUsage();
             this->forceCleanKeys(insert_size);
         }
     }

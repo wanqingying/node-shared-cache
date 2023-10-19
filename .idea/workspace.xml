@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/addon/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/hello-linux-arm-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-arm-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/hello-linux-x86-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-x86-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/hello-win-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-win-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addon/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello-linux-arm-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-arm-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697721731152</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="release 0.4">
+      <option name="closed" value="true" />
+      <created>1697721788134</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1697721788134</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
