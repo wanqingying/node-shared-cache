@@ -1,6 +1,6 @@
 {
   "name": "node-share-memory-cache",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Node.js shared memory cache ",
   "main": "target/addon.js",
   "files": [
