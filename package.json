@@ -2,9 +2,9 @@
   "name": "node-share-memory-cache",
   "version": "0.0.3",
   "description": "Node.js shared memory cache ",
-  "main": "addon/addon.js",
+  "main": "target/addon.js",
   "files": [
-    "addon"
+    "target"
   ],
   "private": false,
   "dependencies": {},

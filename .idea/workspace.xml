@@ -4,26 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="init v12">
-      <change afterPath="$PROJECT_DIR$/addon/addon.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addon/addon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/addon/hello-linux-arm-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boost-share-map.cc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ho.cc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/napi.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/npminstall-debug.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp.cc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello-linux-arm-64.node" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello-linux-x86-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello-linux-x86-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello-win-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello-win-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello.js" afterDir="false" />
+    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/addon/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/hello-linux-arm-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-arm-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/hello-linux-x86-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-x86-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/hello-win-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-win-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addon/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +105,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="hello.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/addon/hello.js" working-dir="$PROJECT_DIR$/addon">
+    <configuration name="hello.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/target/hello.js" working-dir="$PROJECT_DIR$/target">
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -286,7 +274,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697681514933</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="release 0.3">
+      <option name="closed" value="true" />
+      <created>1697721430176</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1697721430176</updated>
+    </task>
+    <task id="LOCAL-00022" summary="release 0.4">
+      <option name="closed" value="true" />
+      <created>1697721731152</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1697721731152</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,6 +347,8 @@
     <MESSAGE value="init v10" />
     <MESSAGE value="init v11" />
     <MESSAGE value="init v12" />
-    <option name="LAST_COMMIT_MESSAGE" value="init v12" />
+    <MESSAGE value="release 0.3" />
+    <MESSAGE value="release 0.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="release 0.4" />
   </component>
 </project>
