@@ -128,27 +128,27 @@ async function boot() {
                     },
                     { defer: false, maxTime: 2 },
                 )
-                .add(
-                    'CacheTestWrite',
-                    async function (deferred) {
-                        // await wait(0);
-                        const ki = Math.floor(Math.random() * kcont*100);
-                        try {
-                            cache.set('new_key' + ki, JSON.stringify(exampleJson));
-                        } catch (e) {
-                            console.log(
-                                'read new key error',
-                                e.message,
-                                typeof cache.get('new_key'),
-                                cache.get('new_key'),
-                            );
-                        } finally {
-                            // deferred.resolve();
-                        }
+                // .add(
+                //     'CacheTestWrite',
+                //     async function (deferred) {
+                //         // await wait(0);
+                //         const ki = Math.floor(Math.random() * kcont*100);
+                //         try {
+                //             cache.set('new_key' + ki, JSON.stringify(exampleJson));
+                //         } catch (e) {
+                //             console.log(
+                //                 'read new key error',
+                //                 e.message,
+                //                 typeof cache.get('new_key'),
+                //                 cache.get('new_key'),
+                //             );
+                //         } finally {
+                //             // deferred.resolve();
+                //         }
 
-                    },
-                    { defer: false, maxTime: 2 },
-                )
+                //     },
+                //     { defer: false, maxTime: 2 },
+                // )
                 .on('complete', async function (event) {
                     const res = cache.get('new_key');
                     let obj = {};
