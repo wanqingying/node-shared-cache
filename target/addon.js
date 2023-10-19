@@ -2,11 +2,11 @@ const cluster = require('cluster');
 var addon;
 
 if (process.platform === 'win32') {
-    addon = require('./hello-win-64.node');
+    addon = require('./hello-win-64-v3.node');
 } else if (process.platform === 'darwin') {
     addon = require('./hello-linux-arm-64.node');
 } else {
-    addon = require('./hello-linux-x86-64.node');
+    addon = require('./hello-linux-x86-64-v3.node');
 }
 
 class ShmCache {
