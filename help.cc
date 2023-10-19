@@ -123,20 +123,3 @@ namespace nnd
     };
 
 }
-
-// void printx(double d)
-// {
-//     // print d
-//     std::cout << d << std::endl;
-// }
-
-// int main()
-// {
-
-//     // print time
-//     long t1 = nnd::get_current_time_millis();
-//     // printx t1
-//     printx(t1);
-
-//     return EXIT_SUCCESS;
-// }

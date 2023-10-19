@@ -27,8 +27,8 @@
     },
     "targets": [
         {
-            "target_name": "hello",
-            "sources": ["hello.cc"],
+            "target_name": "main",
+            "sources": ["main.cc"],
             "cflags_cc": ["<@(cflags_cc)"],
             "include_dirs": ["<@(include_dirs)"],
             "libraries": ["<@(libraries)"],
