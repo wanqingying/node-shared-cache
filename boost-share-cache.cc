@@ -8,7 +8,6 @@
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/segment_manager.hpp>
 #include <boost/interprocess/sync/named_sharable_mutex.hpp>
-#include <boost/interprocess/sync/named_condition.hpp>
 #include "help.cc"
 
 namespace dtl = boost::container::dtl;
@@ -661,80 +660,3 @@ public:
         this->slog->info("grow_count=" + std::to_string(this->grow_count));
     }
 };
-
-void printVt(TDataType &v)
-{
-
-    if (auto bool_ptr = std::get_if<bool>(&v))
-    {
-        std::cout << *bool_ptr << std::endl;
-    }
-    else if (auto double_ptr = std::get_if<double>(&v))
-    {
-        std::cout << *double_ptr << std::endl;
-    }
-    else if (auto str_ptr = std::get_if<std::string>(&v))
-    {
-        std::cout << *str_ptr << std::endl;
-    }
-    else if (auto shm_str_ptr = std::get_if<ShmString>(&v))
-    {
-        std::cout << shm_str_ptr->c_str() << std::endl;
-    }
-    else
-    {
-        std::cout << "unsupport type" << std::endl;
-    }
-}
-
-void printL(std::string k, double l)
-{
-    //
-    std::cout << k << " = " << l << std::endl;
-}
-
-void insert30MB(BoostShareCache *bsm)
-{
-    std::string bs = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
-    for (int i = 0; i < 1000; i++)
-    {
-
-        std::string key = "key" + std::to_string(i);
-        std::string value = bs + std::to_string(i);
-        bsm->insert(key, std::string(value));
-        // long cont = bsm->managed_shm->get_free_memory();
-        // bsm->slog->info("insert30MB free=" + std::to_string(cont));
-        // bsm->get("key" + std::to_string(i - 2));
-        // sleep(1);
-    }
-}
-
-int main()
-{
-    try
-    {
-        // print v
-        BoostShareCache *bsm = new BoostShareCache("Highscore", 4096, true);
-        bsm->slog->info("start");
-        bsm->setLogLevel(nnd::ELevel::DEBUG);
-        std::string vrrr = "aluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevaluevalue";
-        // bsm->setMaxAge(100);
-        // bsm->setLock(false);
-        bsm->insert("k1", vrrr);
-        bsm->insert("k2", vrrr + vrrr);
-        bsm->insert("k3", vrrr + vrrr + vrrr);
-
-        // insert30MB(bsm);
-        std::cout << " after usage " << std::endl;
-        bsm->printUsage();
-        std::cout << " after 1s " << std::endl;
-        std::cout << " after 2s " << std::endl;
-        bsm->cleanKeys();
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error main " << e.what() << '\n';
-    }
-
-    std::cout << "end" << std::endl;
-}
