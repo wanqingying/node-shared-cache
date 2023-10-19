@@ -137,6 +137,10 @@ public:
     {
         this->enable = enable;
     }
+    void destroy()
+    {
+        bip::named_sharable_mutex::remove(name.c_str());
+    }
 };
 
 class BoostShareCache
@@ -319,9 +323,8 @@ public:
 
             this->slog->debug("handleInsertLost key=" + key + " " + e.what());
             int pairSize = key.size() + getDataSize(value);
-
-            this->handleInsertLost(pairSize);
             this->share_mutex->unlock();
+            this->handleInsertLost(pairSize);
             if (retry)
             {
                 this->slog->debug("retry insert key=", key);
@@ -356,18 +359,17 @@ public:
 
     void cleanKeys()
     {
-        this->slog->debug("cleanKeys start");
-        // should lock before check time
-        // void muti process clean at same time
-        // this->share_mutex->lock();
+        this->share_mutex->lock();
         long now_t = nnd::get_current_time_millis();
         if (now_t - *this->last_clean_time < 2000)
         {
-            // this->share_mutex->unlock();
+            this->slog->debug("cleanKeys skip");
+            this->share_mutex->unlock();
             return;
         }
+        this->setLastCleanTime();
 
-        this->slog->debug("start cleanKeys");
+        this->slog->debug("cleanKeys start");
         this->printUsage();
 
         for (auto it = mymap->begin(); it != mymap->end();)
@@ -387,7 +389,6 @@ public:
             long expireAt = v.first;
             if (now_t > expireAt)
             {
-                this->slog->debug("cleanKeys erase key=", it->first.c_str());
                 mymap->erase(it++);
             }
             else
@@ -395,20 +396,19 @@ public:
                 it++;
             }
         }
-        this->setLastCleanTime();
-        // this->share_mutex->unlock();
-        this->slog->debug("end cleanKeys ");
+        this->slog->debug("cleanKeys end");
+        this->share_mutex->unlock();
         this->printUsage();
         this->autoShrink();
     }
     void forceCleanKeys(long min_size)
     {
+        this->share_mutex->lock();
         this->slog->debug("forceCleanKeys start size=" + std::to_string(min_size));
         this->printUsage();
         long clean_size = 0;
         // min 8MB
         long x_size = BP_SIZE * 1024 * 2;
-        // this->share_mutex->lock();
         for (auto it = mymap->begin(); it != mymap->end();)
         {
             PValueType v;
@@ -430,7 +430,7 @@ public:
                 break;
             }
         }
-        // this->share_mutex->unlock();
+        this->share_mutex->unlock();
         this->slog->debug("forceCleanKeys end");
         this->printUsage();
     }
@@ -490,15 +490,19 @@ public:
     }
     void destroy()
     {
+        // this should be called by master process only
         bip::shared_memory_object::remove(shm_name.c_str());
+        bip::shared_memory_object::remove((shm_name + "_ver").c_str());
+        this->share_mutex->destroy();
     }
     bool autoGrow(long min_size = 0)
     {
         // should check mechine memory but not implement,  set max_size careful
+        this->share_mutex->lock();
         if (this->isGrowTagNotOk())
         {
             this->slog->debug("autoGrow skip");
-            // other process is growing
+            this->share_mutex->unlock();
             return true;
         }
         else
@@ -544,10 +548,10 @@ public:
             this->slog->info("autoGrow out of memory max_size=" + std::to_string(max_size));
             this->printUsage();
             this->setGrowTagOut();
+            this->share_mutex->unlock();
             return false;
         }
 
-        // this->share_mutex->lock();
         try
         {
             this->slog->debug("autoGrow old_size_kb=", std::to_string(old_size / 1024));
@@ -563,24 +567,23 @@ public:
             this->slog->info("autoGrow error " + std::string(e.what()));
         }
         this->setGrowTagOut();
-        // this->share_mutex->unlock();
+        this->share_mutex->unlock();
         this->grow_count++;
         this->slog->debug("autoGrow new_size_kb=", std::to_string(this->managed_shm->get_size() / 1024));
         return true;
     }
     void autoShrink()
     {
-        long total_size = this->managed_shm->get_size();
-        long free_size = this->managed_shm->get_free_memory();
 
         // must lock before isShrink check
         // avoid multi process shrink at same time
-        // this->share_mutex->lock();
-    
+        this->share_mutex->lock();
+        long total_size = this->managed_shm->get_size();
+        long free_size = this->managed_shm->get_free_memory();
         bool isShrink = free_size > total_size / 2 && total_size > BP_SIZE * 1024 * 10;
         if (!isShrink)
         {
-            // this->share_mutex->unlock();
+            this->share_mutex->unlock();
             this->slog->debug("autoShrink skip");
             return;
         }
@@ -599,7 +602,9 @@ public:
         {
             this->slog->error("autoShrink error ", e.what());
         }
-        // this->share_mutex->unlock();
+        this->share_mutex->unlock();
+        this->slog->debug("autoShrink end");
+        this->printUsage();
     }
     // get managed_shm size
     int get_size()
@@ -629,7 +634,7 @@ public:
     void handleInsertLost(int insert_size)
     {
         this->cleanKeys();
-    
+
         bool grow = this->autoGrow(insert_size * 2);
         this->printUsage();
         if (!grow)
@@ -641,6 +646,7 @@ public:
     }
     void handleExpireKey(TPairType &pair)
     {
+        this->share_mutex->lock();
         try
         {
             mymap->erase(pair.first);
@@ -649,6 +655,7 @@ public:
         {
             this->slog->error("handleExpireKey erase error key=", pair.first.c_str());
         }
+        this->share_mutex->unlock();
     }
     void printGrowCont()
     {

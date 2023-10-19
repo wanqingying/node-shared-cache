@@ -6,13 +6,13 @@ class ShmObject {
     cache = null;
     constructor() {
         if (cluster.isMaster || cluster.isPrimary) {
-            this.cache = new addon.NodeShareCache("Highscorev4", 1024 * 100, true);
+            this.cache = new addon.NodeShareCache("Highscorev4", 1024 * 1024 * 100, true);
         } else {
-            this.cache = new addon.NodeShareCache("Highscorev4", 1024 * 100, false);
+            this.cache = new addon.NodeShareCache("Highscorev4", 1024 * 1024 * 100, false);
         }
-        this.cache.setMaxAge(40000);
+        this.cache.setMaxAge(100);
         this.cache.setLock(true);
-        this.cache.setLogLevel(1);
+        this.cache.setLogLevel(0);
 
     }
     get(key) {

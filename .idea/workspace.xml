@@ -4,9 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/zna/hello-linux-arm-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/zna/hello-linux-arm-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zna/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/zna/hello.js" afterDir="false" />
+    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="init v12">
+      <change afterPath="$PROJECT_DIR$/addon/addon.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/addon/addon.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/addon/hello-linux-arm-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-share-map.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ho.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/napi.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/npminstall-debug.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello-linux-arm-64.node" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello-linux-x86-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello-linux-x86-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello-win-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello-win-64.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zna/hello.js" beforeDir="false" afterPath="$PROJECT_DIR$/addon/hello.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,30 +92,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/code/node-addon/node-addon-qing/zna&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/wanqingying/IdeaProjects/node-addon/node-shared-map/zna",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/zna" />
       <recent name="D:\code\node-addon\node-addon-qing\zna" />
       <recent name="$PROJECT_DIR$" />
       <recent name="D:\code\node-addon\node-addon-qing" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="hello.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/zna/hello.js" working-dir="$PROJECT_DIR$/zna">
+    <configuration name="hello.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/addon/hello.js" working-dir="$PROJECT_DIR$/addon">
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -251,7 +270,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697648904596</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="init v12">
+      <option name="closed" value="true" />
+      <created>1697681510588</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1697681510588</updated>
+    </task>
+    <task id="LOCAL-00020" summary="init v12">
+      <option name="closed" value="true" />
+      <created>1697681514933</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697681514933</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +307,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -295,6 +342,7 @@
     <MESSAGE value="init v9" />
     <MESSAGE value="init v10" />
     <MESSAGE value="init v11" />
-    <option name="LAST_COMMIT_MESSAGE" value="init v11" />
+    <MESSAGE value="init v12" />
+    <option name="LAST_COMMIT_MESSAGE" value="init v12" />
   </component>
 </project>

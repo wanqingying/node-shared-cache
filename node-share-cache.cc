@@ -155,6 +155,12 @@ private:
         return Napi::Number::New(info.Env(), 1);
     }
 
+    Napi::Value destroy(const Napi::CallbackInfo &info)
+    {
+        this->bsc->destroy();
+        return Napi::Number::New(info.Env(), 1);
+    }
+
 public:
     static Napi::Object Init(Napi::Env env, Napi::Object exports)
     {
@@ -163,6 +169,7 @@ public:
                         "NodeShareCache",
                         {InstanceMethod("get", &NodeShareCache::get),
                          InstanceMethod("set", &NodeShareCache::set),
+                         InstanceMethod("destroy", &NodeShareCache::destroy),
                          InstanceMethod("setLogLevel", &NodeShareCache::setLogLevel),
                          InstanceMethod("setMaxAge", &NodeShareCache::setMaxAge),
                          InstanceMethod("setLock", &NodeShareCache::setLock),

@@ -1,25 +1,24 @@
 {
-  "name": "qing_addon_ho",
-  "version": "0.0.0",
-  "description": "Node.js Addons Example #1",
-  "main": "hello.js",
-  "private": true,
-  "dependencies": {
+  "name": "node-share-memory-cache",
+  "version": "0.0.3",
+  "description": "Node.js shared memory cache ",
+  "main": "addon/addon.js",
+  "files": [
+    "addon"
+  ],
+  "private": false,
+  "dependencies": {},
+  "gypfile": true,
+  "devDependencies": {
+    "aws-sdk": "2.x",
+    "benchmark": "2.1.4",
     "@mapbox/node-pre-gyp": "^1.0.11",
     "bindings": "~1.2.1",
     "node-addon-api": "^7.0.0"
   },
-  "devDependencies": {
-    "aws-sdk": "2.x",
-    "benchmark":"2.1.4"
-  },
-  "scripts": {
-    "test": "node hello.js"
-  },
-  "gypfile": true,
-  "binary": {
+  "binary":{
     "module_name": "hello",
-    "module_path": "./build/Release/",
+    "module_path": "./addon",
     "host": "https://your_module.s3-us-west-1.amazonaws.com"
   }
 }
