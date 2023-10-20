@@ -8,6 +8,7 @@ export class NodeShareCache {
     public setLogLevel(level: number): void;
     public get(key: string): string | undefined;
     public set(key: string, value: string, maxAge?: number): void;
+    public del(key: string): void;
     public destroy(): void;
 }
 
@@ -20,8 +21,9 @@ interface ShmCacheConfig {
 export class ShmCache {
     cache: NodeShareCache;
     constructor(config: ShmCacheConfig);
-    get(key): string | undefined
-    set(key, value): void
+    get(key:string): string | undefined
+    set(key:string, value:string, maxAg:string): void
+    del(key:string): void
     setMaxAge(maxAge: number): void;
     static setMaxAge(maxAge: number): void;
 }

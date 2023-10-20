@@ -20,9 +20,10 @@ interface ShmCacheConfig {
 export class ShmCache {
     cache: NodeShareCache;
     constructor(config: ShmCacheConfig);
-    get(key): string | undefined
-    set(key, value): void
+    get(key:string): string | undefined
+    set(key:string, value:string,maxAge:number): void
     setMaxAge(maxAge: number): void;
+    destroy(): void;
     static setMaxAge(maxAge: number): void;
 }
 

@@ -31,7 +31,7 @@ function waiteExit() {
     })
 }
 const kcont = 10;
-const config = { size: 1024 * 1024*10, maxAge: 500, maxSize: 1024 * 1024 * 80 }
+const config = { size: 1024 * 1024 * 10, maxAge: 500, maxSize: 1024 * 1024 * 80 }
 
 async function boot() {
     if (cluster.isMaster || cluster.isPrimary) {
@@ -45,7 +45,14 @@ async function boot() {
         }
         cache.set('new_key_t', 'value ok', 700);
 
-        console.log('master init done',Date.now().valueOf() , cache.get('new_key_t') );
+        console.log('master init done', Date.now().valueOf(), cache.get('new_key_t'));
+        cache.set('test_remove', 'value_xx', 100);
+        await wait(50);
+        console.log(`test_remove value_xx=${cache.get('test_remove')}`);
+        cache.del('test_remove');
+        console.log(`test_remove undefined=${cache.get('test_remove')}`);
+        cache.del('test_remove');
+
 
         await wait(100);
         for (let i = 0; i < workerCount; i++) {
@@ -57,7 +64,7 @@ async function boot() {
     } else {
         const id = cluster.worker.id;
         const cache = new ShmCache(config);
-        console.info(`work ${id} start `,Date.now().valueOf(), cache.get('new_key_t'));
+        console.info(`work ${id} start `, Date.now().valueOf(), cache.get('new_key_t'));
 
         await wait(20 - id);
         var suite = new Benchmark.Suite();

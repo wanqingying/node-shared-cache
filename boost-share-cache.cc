@@ -479,9 +479,10 @@ public:
         std::string k = key;
         return this->get(k);
     }
-    void remove(std::string &key)
+    void remove(std::string key)
     {
         this->share_mutex->lock();
+        this->checkVersion();
         try
         {
             mymap->erase(ShmString(key.c_str(), managed_shm->get_segment_manager()));

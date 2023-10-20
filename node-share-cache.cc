@@ -81,6 +81,18 @@ private:
         }
         return this->res(info, *res);
     }
+    Napi::Value remove(const Napi::CallbackInfo &info)
+    {
+        int length = info.Length();
+        if (length <= 0 || !info[0].IsString())
+        {
+            Napi::TypeError::New(info.Env(), " arg0 string expected").ThrowAsJavaScriptException();
+            return Napi::String::New(info.Env(), "null");
+        }
+        std::string arg0 = info[0].As<Napi::String>().Utf8Value();
+        bsc->remove(arg0);
+        return info.Env().Undefined();
+    }
     Napi::Value set(const Napi::CallbackInfo &info)
     {
         int length = info.Length();
@@ -177,6 +189,7 @@ public:
             DefineClass(env,
                         "NodeShareCache",
                         {InstanceMethod("get", &NodeShareCache::get),
+                         InstanceMethod("del", &NodeShareCache::remove),
                          InstanceMethod("set", &NodeShareCache::set),
                          InstanceMethod("destroy", &NodeShareCache::destroy),
                          InstanceMethod("setLogLevel", &NodeShareCache::setLogLevel),

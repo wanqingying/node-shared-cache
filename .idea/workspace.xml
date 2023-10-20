@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/cp.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/cp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hello-0.0.7-linux-arm-64.node" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello-0.0.8-linux-arm-64.node" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,7 +340,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697789307137</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="release 0.0.8">
+      <option name="closed" value="true" />
+      <created>1697792668912</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1697792668912</updated>
+    </task>
+    <task id="LOCAL-00029" summary="release 0.0.8">
+      <option name="closed" value="true" />
+      <created>1697792899091</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1697792899091</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -388,6 +407,7 @@
     <MESSAGE value="release set(k,v,age)" />
     <MESSAGE value="release cp" />
     <MESSAGE value="release 0.0.7" />
-    <option name="LAST_COMMIT_MESSAGE" value="release 0.0.7" />
+    <MESSAGE value="release 0.0.8" />
+    <option name="LAST_COMMIT_MESSAGE" value="release 0.0.8" />
   </component>
 </project>
