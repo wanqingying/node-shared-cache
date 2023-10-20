@@ -212,6 +212,7 @@ private:
     }
     bool isGrowTagNotOk()
     {
+        // can be replaced by mutex
         return *this->grow_tag == 1;
     }
     void setGrowTagEnter()
@@ -256,18 +257,6 @@ public:
         }
     }
 
-    void debugOO(bool retry, std::string str)
-    {
-
-        if (!retry)
-        {
-            this->slog->debug("retry insert  " + str);
-        }
-        else
-        {
-            this->slog->debug("insert  " + str);
-        }
-    }
     void checkVersion()
     {
         if (this->version_count != *this->version)
@@ -278,13 +267,17 @@ public:
     }
     void insert(std::string &key, TDataType &value, bool retry = true)
     {
+        this->insert(key, value, this->max_age, retry);
+    }
+    void insert(std::string &key, TDataType &value, long maxAge, bool retry = true)
+    {
         try
         {
             this->share_mutex->lock();
             this->checkVersion();
             auto *sm = managed_shm->get_segment_manager();
             PValueType pv;
-            long expire_at = nnd::get_current_time_millis() + this->max_age;
+            long expire_at = nnd::get_current_time_millis() + maxAge;
             if (auto bool_ptr = std::get_if<bool>(&value))
             {
                 pv = std::make_pair(expire_at, *bool_ptr);
@@ -327,7 +320,7 @@ public:
             if (retry)
             {
                 this->slog->debug("retry insert key=", key);
-                this->insert(key, value, false);
+                this->insert(key, value, false, maxAge);
             }
             else
             {

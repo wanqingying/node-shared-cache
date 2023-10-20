@@ -2,7 +2,7 @@ const { Event, Suite, Target } = require('benchmark');
 // const ShmCache = require('./manager.js');
 const { ShmCache } = require('../target/addon');
 
-const { exampleJson } = require('./json.js');
+const { exampleJson } = require('../test/json.js');
 
 
 const cluster = require('node:cluster');
@@ -220,7 +220,12 @@ async function boot() {
                 .run({ async: false, maxTime: 4 });
         }
 
-        runSuit();
+       async function runTest2(){
+        cache.set('new_key', JSON.stringify(exampleJson));
+        console.log('runTest2 read first ================pid=', id);
+        }
+
+        // runSuit();
     }
 }
 

@@ -93,9 +93,18 @@ private:
         std::string arg0 = info[0].As<Napi::String>().Utf8Value();
         std::string arg1 = info[1].As<Napi::String>().Utf8Value();
 
-        bsc->insert(arg0, arg1);
-
-        return Napi::Number::New(info.Env(), 1);
+        if (length == 3 && info[2].IsNumber())
+        {
+            Napi::Number sizeNum = info[2].As<Napi::Number>();
+            long maxAge = sizeNum.Int32Value();
+            bsc->insert(arg0, arg1, maxAge);
+            return Napi::Number::New(info.Env(), 1);
+        }
+        else
+        {
+            bsc->insert(arg0, arg1);
+            return Napi::Number::New(info.Env(), 1);
+        }
     }
     Napi::Value setMaxSize(const Napi::CallbackInfo &info)
     {

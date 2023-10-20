@@ -6,13 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hello-linux-arm-64.node" beforeDir="false" afterPath="$PROJECT_DIR$/target/hello-linux-arm-64.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hello.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/manager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/manager.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,19 +316,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
