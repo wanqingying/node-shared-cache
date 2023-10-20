@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hello-linux-arm-64.node" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello-linux-x86-64-v3.node" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello-win-64-v3.node" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -318,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697787357925</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="release cp">
+      <option name="closed" value="true" />
+      <created>1697787781764</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1697787781764</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,6 +374,7 @@
     <MESSAGE value="release 0.4" />
     <MESSAGE value="release 0.5" />
     <MESSAGE value="release set(k,v,age)" />
-    <option name="LAST_COMMIT_MESSAGE" value="release set(k,v,age)" />
+    <MESSAGE value="release cp" />
+    <option name="LAST_COMMIT_MESSAGE" value="release cp" />
   </component>
 </project>
