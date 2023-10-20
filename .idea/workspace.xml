@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/hello-linux-arm-64.node" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,12 +100,20 @@
       <recent name="D:\code\node-addon\node-addon-qing" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.test.js">
+    <configuration name="cp.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/dev/cp.js" working-dir="$PROJECT_DIR$/dev">
+      <method v="2" />
+    </configuration>
     <configuration name="hello.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/target/hello.js" working-dir="$PROJECT_DIR$/target">
+      <method v="2" />
+    </configuration>
+    <configuration name="test.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/target/test.js" working-dir="$PROJECT_DIR$/target">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.test.js" />
+        <item itemvalue="Node.js.cp.js" />
         <item itemvalue="Node.js.hello.js" />
       </list>
     </recent_temporary>
@@ -304,7 +310,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697773108711</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="release set(k,v,age)">
+      <option name="closed" value="true" />
+      <created>1697787357925</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1697787357925</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,6 +366,7 @@
     <MESSAGE value="release 0.3" />
     <MESSAGE value="release 0.4" />
     <MESSAGE value="release 0.5" />
-    <option name="LAST_COMMIT_MESSAGE" value="release 0.5" />
+    <MESSAGE value="release set(k,v,age)" />
+    <option name="LAST_COMMIT_MESSAGE" value="release set(k,v,age)" />
   </component>
 </project>
