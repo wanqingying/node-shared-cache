@@ -31,7 +31,7 @@ function waiteExit() {
     })
 }
 const kcont = 10;
-const config = { size: 2048 * 1024 * 10, maxAge: 200, maxSize: 1024 * 1024 * 10 }
+const config = { size: 1024 * 1024*10, maxAge: 500, maxSize: 1024 * 1024 * 80 }
 
 async function boot() {
     if (cluster.isMaster || cluster.isPrimary) {
@@ -43,11 +43,11 @@ async function boot() {
             cache.set('new_key' + i, JSON.stringify(exampleJson));
 
         }
-        cache.set('new_key_t', 'value ok', -1);
+        cache.set('new_key_t', 'value ok', 700);
 
         console.log('master init done',Date.now().valueOf() , cache.get('new_key_t') );
 
-        // await wait(500);
+        await wait(100);
         for (let i = 0; i < workerCount; i++) {
             // await wait(30);
             cluster.fork();
@@ -140,34 +140,12 @@ async function boot() {
                     },
                     { defer: false },
                 )
-                .add(
-                    'CacheTestWrite',
-                    async function (deferred) {
-                        await wait(2);
-                        const ki = Math.floor(Math.random() * kcont * 2000 + 2);
-
-                        try {
-                            writeCont++;
-                            cache.set('new_key' + ki, JSON.stringify(exampleJson));
-                        } catch (e) {
-                            console.log(
-                                'read new key error',
-                                e.message,
-                                typeof cache.get('new_key'),
-                                cache.get('new_key'),
-                            );
-                        } finally {
-                            deferred.resolve();
-                        }
-
-                    },
-                    { defer: true },
-                )
                 // .add(
                 //     'CacheTestWrite',
                 //     async function (deferred) {
-                //         // await wait(1);
-                //         const ki = Math.floor(Math.random() * kcont * 100);
+                //         await wait(2);
+                //         const ki = Math.floor(Math.random() * kcont * 2000 + 2);
+
                 //         try {
                 //             writeCont++;
                 //             cache.set('new_key' + ki, JSON.stringify(exampleJson));
@@ -179,12 +157,34 @@ async function boot() {
                 //                 cache.get('new_key'),
                 //             );
                 //         } finally {
-                //             // deferred.resolve();
+                //             deferred.resolve();
                 //         }
 
                 //     },
-                //     { defer: false },
+                //     { defer: true },
                 // )
+                .add(
+                    'CacheTestWrite',
+                    async function (deferred) {
+                        // await wait(1);
+                        const ki = Math.floor(Math.random() * kcont * 1000);
+                        try {
+                            writeCont++;
+                            cache.set('new_key' + ki, JSON.stringify(exampleJson));
+                        } catch (e) {
+                            console.log(
+                                'read new key error',
+                                e.message,
+                                typeof cache.get('new_key'),
+                                cache.get('new_key'),
+                            );
+                        } finally {
+                            // deferred.resolve();
+                        }
+
+                    },
+                    { defer: false },
+                )
                 .on('complete', async function (event) {
                     const res = cache.get('new_key');
                     let obj = {};
@@ -229,7 +229,7 @@ async function boot() {
             console.log('runTest2 read first ================pid=', id);
         }
 
-        // runSuit();
+        runSuit();
     }
 }
 

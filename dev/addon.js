@@ -17,7 +17,7 @@ class ShmCache {
         this.cache.setMaxAge(maxAge);
         this.cache.setMaxSize(maxSize);
         this.cache.setLock(true);
-        this.cache.setLogLevel(0);
+        this.cache.setLogLevel(2);
 
     }
     get(key) {

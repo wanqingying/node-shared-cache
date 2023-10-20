@@ -1,5 +1,5 @@
 const fs=require('fs')
-const pkg=require('../package.json')
+const pkg=require(`${process.cwd()}/package.json`)
 
 let p="main.node"
 
@@ -13,7 +13,7 @@ if (process.platform === 'win32') {
 
 
 // copy file ../build/Release/hello.node to ../target/hello.node
-fs.copyFileSync('../build/Release/main.node',`../target/${p}`)
+fs.copyFileSync(`${process.cwd()}/build/Release/main.node`,`${process.cwd()}/target/${p}`)
 
 
 

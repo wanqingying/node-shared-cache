@@ -399,9 +399,20 @@ public:
         this->slog->debug("forceCleanKeys start size=" + std::to_string(min_size));
         this->printUsage();
         this->share_mutex->lock();
-        long clean_size = 0;
+        this->checkVersion();
+        long free_size = this->managed_shm->get_free_memory();
+        long total_size = this->managed_shm->get_size();
+        if (free_size > BP_SIZE * 1024 && total_size > min_size * 2)
+        {
+            this->slog->debug("forceCleanKeys skip");
+            this->share_mutex->unlock();
+            return;
+        }
+
         // min 8MB
-        long x_size = BP_SIZE * 1024 * 2;
+        long x_size = (long)(total_size / 3);
+        long clean_size = 0;
+
         for (auto it = mymap->begin(); it != mymap->end();)
         {
             PValueType v;
@@ -424,7 +435,7 @@ public:
             }
         }
         this->share_mutex->unlock();
-        this->slog->debug("forceCleanKeys end");
+        this->slog->info("forceCleanKeys end clean_size=" + std::to_string(clean_size));
         this->printUsage();
     }
     TDataType *get(std::string &key)
@@ -492,6 +503,7 @@ public:
     {
         // should check mechine memory but not implement,  set max_size careful
         this->share_mutex->lock();
+        // this->checkVersion();
         if (this->isGrowTagNotOk())
         {
             this->slog->debug("autoGrow skip");
@@ -571,6 +583,7 @@ public:
         // must lock before isShrink check
         // avoid multi process shrink at same time
         this->share_mutex->lock();
+        // this->checkVersion();
         long total_size = this->managed_shm->get_size();
         long free_size = this->managed_shm->get_free_memory();
         bool isShrink = free_size > total_size / 2 && total_size > BP_SIZE * 1024 * 10;
