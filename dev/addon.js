@@ -1,5 +1,5 @@
 const cluster = require('cluster');
-var addon=require('../build/Release/main.node');
+var addon = require('../build/Release/main.node');
 
 
 class ShmCache {
@@ -17,14 +17,18 @@ class ShmCache {
         this.cache.setMaxAge(maxAge);
         this.cache.setMaxSize(maxSize);
         this.cache.setLock(true);
-        this.cache.setLogLevel(2);
+        this.cache.setLogLevel(0);
 
     }
     get(key) {
         return this.cache.get(key);
     }
-    set(key, value) {
-        return this.cache.set(key, value);
+    set(key, value, maxAge) {
+        if (maxAge !== undefined) {
+            this.cache.set(key, value, maxAge);
+        } else {
+            return this.cache.set(key, value);
+        }
     }
     setMaxAge(maxAge) {
         this.cache.setMaxAge(maxAge);

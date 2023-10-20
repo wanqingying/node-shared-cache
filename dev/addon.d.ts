@@ -7,7 +7,7 @@ export class NodeShareCache {
     public setLock(lock: boolean): void;
     public setLogLevel(level: number): void;
     public get(key: string): string | undefined;
-    public set(key: string, value: string): void;
+    public set(key: string, value: string, maxAge?: number): void;
     public destroy(): void;
 }
 

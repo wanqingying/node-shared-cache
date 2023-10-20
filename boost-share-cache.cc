@@ -265,10 +265,6 @@ public:
             this->getResource();
         }
     }
-    void insert(std::string &key, TDataType &value, bool retry = true)
-    {
-        this->insert(key, value, this->max_age, retry);
-    }
     void insert(std::string &key, TDataType &value, long maxAge, bool retry = true)
     {
         try
@@ -331,22 +327,27 @@ public:
     void insert(const std::string &key, TDataType &value)
     {
         std::string k = key;
-        this->insert(k, value);
+        this->insert(k, value, true);
     }
     void insert(std::string key, double value)
     {
         TDataType v = buildType(value);
-        this->insert(key, v);
+        this->insert(key, v, this->max_age, true);
     }
     void insert(std::string key, bool value)
     {
         TDataType v = buildType(value);
-        this->insert(key, v);
+        this->insert(key, v, this->max_age, true);
     }
     void insert(std::string key, std::string value)
     {
         TDataType v = buildType(value);
-        this->insert(key, v);
+        this->insert(key, v, this->max_age, true);
+    }
+    void insert(std::string key, std::string value, long maxAge)
+    {
+        TDataType v = buildType(value);
+        this->insert(key, v, maxAge, true);
     }
 
     void cleanKeys()
