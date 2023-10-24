@@ -112,15 +112,11 @@ class BoostShareCache
 {
     // linux memory page size
     static const long BP_SIZE = 1024 * 4;
-    // max alloc memory size 4G
-    // static const int FULL_MAX_SIZE = 1024 * 4 * 1024 * 1024;
 
-public:
+private:
     /* data */
     bip::managed_shared_memory *managed_shm;
     bip::managed_shared_memory *shm_vn;
-    // bip::segment_manager
-    // bip::segment_manager *sm;
     MyMap *mymap;
     long *last_clean_time;
     int *grow_tag;
@@ -137,7 +133,6 @@ public:
     bool isMaster = false;
     // milliseconds
     long max_age = 2000;
-    bool renew = true;
 
 public:
     nnd::ShmLog *slog = new nnd::ShmLog();

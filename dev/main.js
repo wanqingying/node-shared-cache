@@ -38,7 +38,7 @@ async function boot() {
         const cache = new ShmCache(config);
 
 
-        cache.set('new_key', JSON.stringify(exampleJson));
+        cache.set('new_key', JSON.stringify(exampleJson), 20000);
         for (let i = 0; i < kcont; i++) {
             cache.set('new_key' + i, JSON.stringify(exampleJson));
 
@@ -54,7 +54,6 @@ async function boot() {
         cache.del('test_remove');
 
 
-        await wait(100);
         for (let i = 0; i < workerCount; i++) {
             // await wait(30);
             cluster.fork();
@@ -66,7 +65,7 @@ async function boot() {
         const cache = new ShmCache(config);
         console.info(`work ${id} start `, Date.now().valueOf(), cache.get('new_key_t'));
 
-        await wait(20 - id);
+        // await wait(20 - id);
         var suite = new Benchmark.Suite();
 
 
@@ -125,7 +124,7 @@ async function boot() {
 
                         try {
                             readCont++;
-                            const b = cache.get('new_key' + ki);
+                            const b = cache.get('new_key');
                             try {
                                 const obj = JSON.parse(b);
                                 if (obj.expId !== exampleJson.expId) {

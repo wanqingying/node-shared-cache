@@ -6,7 +6,6 @@ class NodeShareCache : public Napi::ObjectWrap<NodeShareCache>
 {
 
 private:
-    double value_ = 10;
     BoostShareCache *bsc;
 
 public:
