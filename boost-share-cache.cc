@@ -13,6 +13,7 @@
 namespace dtl = boost::container::dtl;
 namespace bip = boost::interprocess;
 
+typedef std::string stdstring;
 typedef bip::allocator<char, bip::managed_shared_memory::segment_manager> CharAllocator;
 typedef bip::basic_string<char, std::char_traits<char>, CharAllocator> ShmString;
 typedef bip::allocator<ShmString, bip::managed_shared_memory::segment_manager> StringAllocator;
@@ -21,7 +22,7 @@ typedef ShmString PKeyType;
 template <typename V>
 using PairTemp = std::pair<const ShmString, V>;
 
-typedef std::variant<bool, double, ShmString, std::string> TDataType;
+typedef ShmString TDataType;
 
 // typedef <long,TDataType> bip pair
 typedef bip::pair<long, TDataType> PValueType;
@@ -33,57 +34,22 @@ typedef bip::map<PKeyType, PValueType, std::less<ShmString>, ShmAllocator> MyMap
 // todo test for this
 int getDataSize(TDataType &v)
 {
-    if (std::holds_alternative<bool>(v))
-    {
-        return sizeof(bool);
-    }
-    else if (std::holds_alternative<double>(v))
-    {
-        return sizeof(double);
-    }
-    else if (auto str_ptr = std::get_if<std::string>(&v))
-    {
-        return str_ptr->size();
-    }
-    else if (auto shm_str_ptr = std::get_if<ShmString>(&v))
-    {
-        return shm_str_ptr->size();
-    }
-    return 0;
-}
-
-TDataType buildType(bool v)
-{
-    return v;
-}
-
-TDataType buildType(double v)
-{
-    return v;
-}
-
-TDataType buildType(std::string v)
-{
-    return v;
-}
-
-TDataType buildType(ShmString v)
-{
-    return v;
+    // return size
+    return v.size();
 }
 
 class BoostNamedShareMutex
 {
 private:
     bip::named_sharable_mutex *mutex;
-    std::string name;
+    stdstring name;
 
 public:
     bool enable;
     nnd::ShmLog *slog = new nnd::ShmLog();
 
 public:
-    BoostNamedShareMutex(std::string name, bool renew = true, bool enable = true)
+    BoostNamedShareMutex(stdstring name, bool renew = true, bool enable = true)
     {
         this->name = name;
         this->enable = enable;
@@ -162,7 +128,7 @@ public:
     int version_count = 0;
     int grow_count = 0;
 
-    std::string shm_name;
+    stdstring shm_name;
     long shm_size;
     // default 800MB
     long max_size = BP_SIZE * 1024 * 200;
@@ -188,8 +154,8 @@ private:
     }
     void getResource(long size, int tag, long last_c_time, int version = 1)
     {
-        std::string mtx_name = shm_name + "_mtx";
-        std::string ver_name = shm_name + "_ver";
+        stdstring mtx_name = shm_name + "_mtx";
+        stdstring ver_name = shm_name + "_ver";
         this->managed_shm = new bip::managed_shared_memory(bip::open_or_create, this->shm_name.c_str(), size);
         this->shm_vn = new bip::managed_shared_memory(bip::open_or_create, ver_name.c_str(), 2048);
         this->mymap = managed_shm->find_or_construct<MyMap>("MyMap")(managed_shm->get_segment_manager());
@@ -225,12 +191,12 @@ private:
     }
 
 public:
-    BoostShareCache(std::string name, int size, bool renew = false)
+    BoostShareCache(stdstring name, int size, bool renew = false)
     {
         // print init
         this->slog->info("BoostShareCache init");
-        std::string mtx_name = shm_name + "_mtx";
-        std::string ver_name = shm_name + "_ver";
+        stdstring mtx_name = shm_name + "_mtx";
+        stdstring ver_name = shm_name + "_ver";
         shm_name = name;
         shm_size = size;
         if (renew)
@@ -265,37 +231,15 @@ public:
             this->getResource();
         }
     }
-    void insert(std::string &key, TDataType &value, long maxAge, bool retry = true)
+    void insert(stdstring &key, stdstring &value, long maxAge, bool retry)
     {
         try
         {
             this->share_mutex->lock();
             this->checkVersion();
             auto *sm = managed_shm->get_segment_manager();
-            PValueType pv;
             long expire_at = nnd::get_current_time_millis() + maxAge;
-            if (auto bool_ptr = std::get_if<bool>(&value))
-            {
-                pv = std::make_pair(expire_at, *bool_ptr);
-            }
-            else if (auto double_ptr = std::get_if<double>(&value))
-            {
-                pv = std::make_pair(expire_at, *double_ptr);
-            }
-            else if (auto str_ptr = std::get_if<std::string>(&value))
-            {
-                pv = std::make_pair(expire_at, ShmString(str_ptr->c_str(), sm));
-            }
-            else if (auto shm_str_ptr = std::get_if<ShmString>(&value))
-            {
-                pv = std::make_pair(expire_at, *shm_str_ptr);
-            }
-            else
-            {
-                this->slog->error("insert error unsupport value type ", typeid(value).name());
-                this->share_mutex->unlock();
-                return;
-            }
+            PValueType pv = std::make_pair(expire_at, ShmString(value.c_str(), sm));
             ShmString k(key.c_str(), sm);
             TPairType pair = std::make_pair(k, pv);
             auto newPair = mymap->insert(pair);
@@ -310,7 +254,7 @@ public:
         {
 
             this->slog->debug("handleInsertLost key=" + key + " " + e.what());
-            int pairSize = key.size() + getDataSize(value);
+            int pairSize = key.size() + value.size();
             this->share_mutex->unlock();
             this->handleInsertLost(pairSize);
             if (retry)
@@ -324,30 +268,13 @@ public:
             }
         }
     }
-    void insert(const std::string &key, TDataType &value)
+    void insert(stdstring &key, stdstring &value)
     {
-        std::string k = key;
-        this->insert(k, value, true);
+        this->insert(key, value, this->max_age, true);
     }
-    void insert(std::string key, double value)
+    void insert(stdstring &key, stdstring &value, long maxAge)
     {
-        TDataType v = buildType(value);
-        this->insert(key, v, this->max_age, true);
-    }
-    void insert(std::string key, bool value)
-    {
-        TDataType v = buildType(value);
-        this->insert(key, v, this->max_age, true);
-    }
-    void insert(std::string key, std::string value)
-    {
-        TDataType v = buildType(value);
-        this->insert(key, v, this->max_age, true);
-    }
-    void insert(std::string key, std::string value, long maxAge)
-    {
-        TDataType v = buildType(value);
-        this->insert(key, v, maxAge, true);
+        this->insert(key, value, maxAge, true);
     }
 
     void cleanKeys()
@@ -367,26 +294,24 @@ public:
 
         for (auto it = mymap->begin(); it != mymap->end();)
         {
-
-            PValueType v;
             try
             {
-                v = it->second;
+                PValueType v = it->second;
+                long expireAt = v.first;
+                if (now_t > expireAt)
+                {
+                    mymap->erase(it++);
+                }
+                else
+                {
+                    it++;
+                }
             }
             catch (const std::exception &e)
             {
                 this->slog->error("cleanKeys error key=", it->first.c_str());
                 it++;
                 continue;
-            }
-            long expireAt = v.first;
-            if (now_t > expireAt)
-            {
-                mymap->erase(it++);
-            }
-            else
-            {
-                it++;
             }
         }
         this->slog->debug("cleanKeys end");
@@ -415,10 +340,15 @@ public:
 
         for (auto it = mymap->begin(); it != mymap->end();)
         {
-            PValueType v;
             try
             {
-                v = it->second;
+                PValueType v = it->second;
+                clean_size += getDataSize(v.second);
+                mymap->erase(it++);
+                if (clean_size > x_size)
+                {
+                    break;
+                }
             }
             catch (const std::exception &e)
             {
@@ -426,19 +356,12 @@ public:
                 it++;
                 continue;
             }
-            clean_size += getDataSize(v.second);
-            mymap->erase(it++);
-            if (clean_size > x_size)
-            {
-                // todo should release more memory
-                break;
-            }
         }
         this->share_mutex->unlock();
         this->slog->info("forceCleanKeys end clean_size=" + std::to_string(clean_size));
         this->printUsage();
     }
-    TDataType *get(std::string &key)
+    stdstring *get(stdstring &key)
     {
         try
         {
@@ -459,7 +382,7 @@ public:
                     return nullptr;
                 }
                 this->share_mutex->unlock_sharable();
-                return value;
+                return new stdstring(value->c_str());
             }
             else
             {
@@ -474,12 +397,11 @@ public:
             return nullptr;
         }
     }
-    TDataType *get(const std::string &key)
+    stdstring *get(const stdstring &key)
     {
-        std::string k = key;
-        return this->get(k);
+        return this->get(const_cast<stdstring &>(key));
     }
-    void remove(std::string key)
+    void remove(stdstring key)
     {
         this->share_mutex->lock();
         this->checkVersion();
@@ -493,6 +415,7 @@ public:
         }
         this->share_mutex->unlock();
     }
+
     void destroy()
     {
         // this should be called by master process only
@@ -570,7 +493,7 @@ public:
         }
         catch (const std::exception &e)
         {
-            this->slog->info("autoGrow error " + std::string(e.what()));
+            this->slog->info("autoGrow error " + stdstring(e.what()));
         }
         this->setGrowTagOut();
         this->share_mutex->unlock();
@@ -668,3 +591,4 @@ public:
         this->slog->info("grow_count=" + std::to_string(this->grow_count));
     }
 };
+

@@ -40,30 +40,10 @@ public:
     }
 
 private:
-    Napi::Value res(const Napi::CallbackInfo &info, TDataType &v)
+    Napi::Value res(const Napi::CallbackInfo &info, stdstring &v)
     {
         Napi::Env env = info.Env();
-
-        if (auto bool_ptr = std::get_if<bool>(&v))
-        {
-            return Napi::Boolean::New(env, *bool_ptr);
-        }
-        else if (auto double_ptr = std::get_if<double>(&v))
-        {
-            return Napi::Number::New(env, *double_ptr);
-        }
-        else if (auto str_ptr = std::get_if<std::string>(&v))
-        {
-            return Napi::String::New(env, *str_ptr);
-        }
-        else if (auto shm_str_ptr = std::get_if<ShmString>(&v))
-        {
-            return Napi::String::New(env, shm_str_ptr->c_str());
-        }
-        else
-        {
-            return Napi::String::New(env, "not support type");
-        }
+        return Napi::String::New(env, v.c_str());
     }
     Napi::Value get(const Napi::CallbackInfo &info)
     {
