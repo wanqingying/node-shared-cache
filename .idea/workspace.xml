@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/boost-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/boost-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node-share-cache.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node-share-cache.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/addon.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/addon.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/addon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/hello-0.0.8-linux-arm-64.node" beforeDir="false" />
+    <list default="true" id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="release 0.0.8">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boost-zt.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/addon.d.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +122,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="0ed40c02-8072-47b5-a848-4a3d18a27793" name="更改" comment="" />
+      <changelist id="16a29a76-9f30-4b2b-b3ce-f2d555cb75ab" name="更改" comment="" />
       <created>1697293320304</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -136,6 +131,7 @@
       <workItem from="1697293679178" duration="630000" />
       <workItem from="1697296155470" duration="6735000" />
       <workItem from="1697428997652" duration="14692000" />
+      <workItem from="1698063621151" duration="3121000" />
     </task>
     <task id="LOCAL-00001" summary="init 2">
       <created>1697293413401</created>
