@@ -1,0 +1,24 @@
+{
+  "name": "node-share-memory-cache",
+  "version": "0.1.3",
+  "description": "Node.js shared memory cache ",
+  "main": "target/addon.js",
+  "files": [
+    "target"
+  ],
+  "private": false,
+  "dependencies": {},
+  "gypfile": true,
+  "devDependencies": {
+    "aws-sdk": "2.x",
+    "benchmark": "2.1.4",
+    "@mapbox/node-pre-gyp": "^1.0.11",
+    "bindings": "~1.2.1",
+    "node-addon-api": "^7.0.0"
+  },
+  "binary":{
+    "module_name": "hello",
+    "module_path": "./addon",
+    "host": "https://your_module.s3-us-west-1.amazonaws.com"
+  }
+}
