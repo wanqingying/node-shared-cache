@@ -34,8 +34,8 @@ class ShmCache {
     del(key){
         return this.cache.del(key);
     }
-    set(key, value) {
-        return this.cache.set(key, value);
+    set(key, value, maxAge) {
+        return this.cache.set(key, value, maxAge);
     }
     setMaxAge(maxAge) {
         this.cache.setMaxAge(maxAge);
