@@ -72,4 +72,5 @@ shrink to fit the size of data
    ![write_only](imgs/read_first.png)
    
 5 child process , write first, win64 i5-12490 
-![img.png](imgs/win64-read-write.PNG)
+
+   ![img.png](imgs/win64-read-write.PNG)
