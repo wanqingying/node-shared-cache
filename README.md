@@ -1,14 +1,5 @@
 # Nodejs Shared Memory Cache
 
-a shared memory cache for nodejs, support auto grow/shrink and read/write mutex
-1. every process QPS 4W+  and pipe 400MB/s data
-2. i try use ipc(process.send message) to share cache ,but QPS 4k and pipe 50MB/s
-3. i try use mmap or other lib, but no read/write lock so is hard to sync cause crash or stuck
-4. comfort for nodejs server with fork() process, local cache
-
-## Installation
-
-    xxx todo 
 
 ## Usage
 
@@ -35,10 +26,6 @@ cache.del('key');
 1. get/set with key , base data operation
 2. setMaxAge , set max age for data expire,default 2000ms
 3. setMaxSize , set max memory allocation size, default 800MB
-4. setLock(bool), enable/disable lock
-   > can be disable when read only to improve performance  
-   > !!!!can nooooot disable when write, cause crash or stuck
-5. setLogLevel(1,2,3) , show detail logs
 
 ## memory allocation
 
