@@ -5,6 +5,7 @@
 #include <boost/interprocess/containers/string.hpp>
 #include <iostream>
 #include "help.cc"
+
 namespace bip = boost::interprocess;
 
 namespace slc
@@ -105,28 +106,3 @@ namespace slc
     };
 }
 
-int main()
-{
-    using namespace slc;
-    bip::shared_memory_object::remove("MySharedMemory");
-    auto cache = SharedLRUCache<ShmString, ShmString>("MySharedMemory", 3);
-    stdstring key1 = "key1";
-    stdstring value1 = "value1";
-    cache.put(cache.mstring(key1), cache.mstring(value1));
-
-    // print
-    // for (auto it = cache.keys->begin(); it != cache.keys->end(); it++)
-    // {
-    //     // print key=v
-    //     std::cout << *it << "=" << cache.get(*it) << std::endl;
-    // }
-
-    // print cache.cache
-
-    for (auto it = cache.map->begin(); it != cache.map->end(); it++) // tag3
-    {
-        std::cout << it->first << "=" << it->second.value << std::endl;
-    }
-
-    // Use the cache...
-}
