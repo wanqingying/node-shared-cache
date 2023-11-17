@@ -36,6 +36,9 @@ class ShmCache {
     setMaxAge(maxAge) {
         this.cache.setMaxAge(maxAge);
     }
+    stat() {
+        return this.cache.stat();
+    }
 }
 
 // test()

@@ -60,6 +60,27 @@ private:
         }
         return this->res(info, *res);
     }
+    Napi::Value stat(const Napi::CallbackInfo &info)
+    {
+        BoostShareCacheStat *stat = bsc->stat();
+        Napi::Env env = info.Env();
+        Napi::Object obj = Napi::Object::New(env);
+        obj.Set("max_size", stat->max_size);
+        obj.Set("total_size", stat->total_size);
+        obj.Set("free_size", stat->free_size);
+        obj.Set("used_size", stat->used_size);
+        obj.Set("grow_count", stat->grow_count);
+        obj.Set("key_cont", stat->key_cont);
+        obj.Set("last_clean_time", stat->last_clean_time);
+        obj.Set("version", stat->version);
+        return obj;
+    }
+      Napi::Value stat2(const Napi::CallbackInfo &info)
+    {
+        // print hello stat
+        std::cout << "hello stat" << std::endl;
+        return info.Env().Undefined();
+    }
     Napi::Value remove(const Napi::CallbackInfo &info)
     {
         int length = info.Length();
@@ -174,6 +195,9 @@ public:
                          InstanceMethod("setLogLevel", &NodeShareCache::setLogLevel),
                          InstanceMethod("setMaxAge", &NodeShareCache::setMaxAge),
                          InstanceMethod("setLock", &NodeShareCache::setLock),
+                         InstanceMethod("stat", &NodeShareCache::stat),
+                         InstanceMethod("stat2", &NodeShareCache::stat2),
+
                          InstanceMethod("setMaxSize", &NodeShareCache::setMaxSize)});
 
         Napi::FunctionReference *constructor = new Napi::FunctionReference();

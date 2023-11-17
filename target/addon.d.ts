@@ -1,5 +1,16 @@
 
 
+export interface ShmCacheStat{
+    max_size: number,
+    total_size: number,
+    free_size: number,
+    used_size: number,
+    grow_count: number,
+    key_cont: number,
+    last_clean_time: number,
+    version: number
+}
+
 export class NodeShareCache {
     constructor(name: string, size: number, renew: boolean);
     public setMaxAge(maxAge: number): void;
@@ -10,6 +21,7 @@ export class NodeShareCache {
     public set(key: string, value: string): void;
     public del(key: string): void;
     public destroy(): void;
+    public stat(): ShmCacheStat;
 }
 
 interface ShmCacheConfig {
@@ -26,6 +38,7 @@ export class ShmCache {
     set(key:string, value:string,maxAge:number): void
     setMaxAge(maxAge: number): void;
     destroy(): void;
+    stat(): ShmCacheStat;
     static setMaxAge(maxAge: number): void;
 }
 

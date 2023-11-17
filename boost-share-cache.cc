@@ -38,6 +38,17 @@ int getDataSize(TDataType &v)
     return v.size();
 }
 
+struct BoostShareCacheStat{
+    long max_size;
+    long free_size;
+    long used_size;
+    long total_size;
+    long last_clean_time;
+    int grow_count;
+    int version;
+    int key_cont;
+};
+
 class BoostNamedShareMutex
 {
 private:
@@ -585,5 +596,20 @@ public:
     {
         this->slog->info("grow_count=" + std::to_string(this->grow_count));
     }
+    BoostShareCacheStat* stat(){
+        BoostShareCacheStat* stat = new BoostShareCacheStat();
+        this->share_mutex->lock_sharable();
+        stat->max_size = this->max_size;
+        stat->free_size = this->managed_shm->get_free_memory();
+        stat->used_size = this->managed_shm->get_size() - stat->free_size;
+        stat->total_size = this->managed_shm->get_size();
+        stat->last_clean_time = *this->last_clean_time;
+        stat->grow_count = this->grow_count;
+        stat->version = *this->version;
+        stat->key_cont = this->mymap->size();
+        this->share_mutex->unlock_sharable();
+        return stat;
+    }
 };
+
 

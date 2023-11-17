@@ -43,6 +43,9 @@ class ShmCache {
     destroy(){
         this.cache.destroy();
     }
+    stat() {
+        return this.cache.stat();
+    }
 }
 
 // test()
