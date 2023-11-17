@@ -31,6 +31,9 @@ class ShmCache {
     get(key) {
         return this.cache.get(key);
     }
+    del(key){
+        return this.cache.del(key);
+    }
     set(key, value) {
         return this.cache.set(key, value);
     }
