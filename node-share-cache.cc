@@ -75,12 +75,6 @@ private:
         obj.Set("version", stat->version);
         return obj;
     }
-      Napi::Value stat2(const Napi::CallbackInfo &info)
-    {
-        // print hello stat
-        std::cout << "hello stat" << std::endl;
-        return info.Env().Undefined();
-    }
     Napi::Value remove(const Napi::CallbackInfo &info)
     {
         int length = info.Length();
@@ -196,8 +190,6 @@ public:
                          InstanceMethod("setMaxAge", &NodeShareCache::setMaxAge),
                          InstanceMethod("setLock", &NodeShareCache::setLock),
                          InstanceMethod("stat", &NodeShareCache::stat),
-                         InstanceMethod("stat2", &NodeShareCache::stat2),
-
                          InstanceMethod("setMaxSize", &NodeShareCache::setMaxSize)});
 
         Napi::FunctionReference *constructor = new Napi::FunctionReference();
