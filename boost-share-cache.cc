@@ -44,6 +44,7 @@ struct BoostShareCacheStat{
     long used_size;
     long total_size;
     long last_clean_time;
+    long mem_proc;
     int grow_count;
     int version;
     int key_cont;
@@ -367,7 +368,7 @@ public:
         this->slog->info("forceCleanKeys end clean_size=" + std::to_string(clean_size));
         this->printUsage();
     }
-    stdstring *get(stdstring &key)
+    std::optional<stdstring> get(stdstring &key)
     {
         try
         {
@@ -388,7 +389,8 @@ public:
                     return nullptr;
                 }
                 this->share_mutex->unlock_sharable();
-                return new stdstring(value->c_str());
+                stdstring res= stdstring(value->c_str());
+                return res;
             }
             else
             {
@@ -403,7 +405,7 @@ public:
             return nullptr;
         }
     }
-    stdstring *get(const stdstring &key)
+    std::optional<stdstring> get(const stdstring &key)
     {
         return this->get(const_cast<stdstring &>(key));
     }
@@ -596,17 +598,18 @@ public:
     {
         this->slog->info("grow_count=" + std::to_string(this->grow_count));
     }
-    BoostShareCacheStat* stat(){
-        BoostShareCacheStat* stat = new BoostShareCacheStat();
+    BoostShareCacheStat stat(){
+        BoostShareCacheStat stat;
         this->share_mutex->lock_sharable();
-        stat->max_size = this->max_size;
-        stat->free_size = this->managed_shm->get_free_memory();
-        stat->used_size = this->managed_shm->get_size() - stat->free_size;
-        stat->total_size = this->managed_shm->get_size();
-        stat->last_clean_time = *this->last_clean_time;
-        stat->grow_count = this->grow_count;
-        stat->version = *this->version;
-        stat->key_cont = this->mymap->size();
+        stat.max_size = this->max_size;
+        stat.free_size = this->managed_shm->get_free_memory();
+        stat.used_size = this->managed_shm->get_size() - stat.free_size;
+        stat.total_size = this->managed_shm->get_size();
+        stat.last_clean_time = *this->last_clean_time;
+        stat.grow_count = this->grow_count;
+        stat.version = *this->version;
+        stat.key_cont = this->mymap->size();
+        stat.mem_proc = nnd::print_memory_usage_mac();
         this->share_mutex->unlock_sharable();
         return stat;
     }

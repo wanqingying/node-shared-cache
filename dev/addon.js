@@ -1,5 +1,17 @@
 const cluster = require('cluster');
-var addon = require('../build/Release/main.node');
+// var addon = require('../build/Release/main.node');
+var addon;
+
+const pkg = require("../package.json");
+
+if (process.platform === 'win32') {
+    addon = require(`../target/hello-${pkg.version}-win-64.node`);
+} else if (process.platform === 'darwin') {
+    addon = require(`../target/hello-${pkg.version}-linux-arm-64.node`);
+} else {
+    addon = require(`../target/hello-${pkg.version}-linux-x86-64.node`);
+}
+
 
 
 class ShmCache {

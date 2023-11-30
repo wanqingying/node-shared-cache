@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
+#include <fstream>
+#include <mach/mach.h>
 
 namespace nnd
 {
@@ -11,6 +13,38 @@ namespace nnd
     using std::chrono::milliseconds;
     using std::chrono::seconds;
     using std::chrono::system_clock;
+
+    long print_memory_usage_mac()
+    {
+        task_basic_info info;
+        mach_msg_type_number_t size = sizeof(info);
+        kern_return_t kl = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&info, &size);
+        if (kl == KERN_SUCCESS)
+        {
+            std::cout << "Current memory usage: " << info.resident_size << " bytes" << std::endl;
+        }
+        else
+        {
+            std::cerr << "Failed to get memory info" << std::endl;
+        }
+        return info.resident_size;
+    }
+    size_t get_current_memory_usage()
+    {
+        std::ifstream status_file("/proc/self/status");
+        std::string line;
+
+        while (std::getline(status_file, line))
+        {
+            if (line.find("VmRSS") != std::string::npos)
+            {
+                size_t memory_usage = std::stoull(line.substr(line.find_last_of('\t'), line.find_last_of('k') - 1));
+                return memory_usage;
+            }
+        }
+
+        return 0;
+    }
 
     long get_current_time_millis()
     {

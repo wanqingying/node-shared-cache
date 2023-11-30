@@ -53,8 +53,8 @@ private:
             return Napi::String::New(info.Env(), "null");
         }
         std::string arg0 = info[0].As<Napi::String>().Utf8Value();
-        auto *res = bsc->get(arg0);
-        if (res == nullptr)
+        std::optional<std::string> res = bsc->get(arg0);
+        if (res.has_value() == false)
         {
             return info.Env().Undefined();
         }
@@ -62,17 +62,18 @@ private:
     }
     Napi::Value stat(const Napi::CallbackInfo &info)
     {
-        BoostShareCacheStat *stat = bsc->stat();
+        BoostShareCacheStat stat = bsc->stat();
         Napi::Env env = info.Env();
         Napi::Object obj = Napi::Object::New(env);
-        obj.Set("max_size", stat->max_size);
-        obj.Set("total_size", stat->total_size);
-        obj.Set("free_size", stat->free_size);
-        obj.Set("used_size", stat->used_size);
-        obj.Set("grow_count", stat->grow_count);
-        obj.Set("key_cont", stat->key_cont);
-        obj.Set("last_clean_time", stat->last_clean_time);
-        obj.Set("version", stat->version);
+        obj.Set("max_size", stat.max_size);
+        obj.Set("total_size", stat.total_size);
+        obj.Set("free_size", stat.free_size);
+        obj.Set("used_size", stat.used_size);
+        obj.Set("grow_count", stat.grow_count);
+        obj.Set("key_cont", stat.key_cont);
+        obj.Set("last_clean_time", stat.last_clean_time);
+        obj.Set("version", stat.version);
+        obj.Set("mem_proc", stat.mem_proc);
         return obj;
     }
     Napi::Value remove(const Napi::CallbackInfo &info)
