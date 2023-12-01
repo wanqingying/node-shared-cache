@@ -54,11 +54,11 @@ private:
         }
         std::string arg0 = info[0].As<Napi::String>().Utf8Value();
         std::optional<std::string> res = bsc->get(arg0);
-        if (res.has_value() == false)
-        {
+        if(res.has_value() == 1){
+            return this->res(info, *res);
+        }else{
             return info.Env().Undefined();
         }
-        return this->res(info, *res);
     }
     Napi::Value stat(const Napi::CallbackInfo &info)
     {

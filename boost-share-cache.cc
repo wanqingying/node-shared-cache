@@ -38,7 +38,8 @@ int getDataSize(TDataType &v)
     return v.size();
 }
 
-struct BoostShareCacheStat{
+struct BoostShareCacheStat
+{
     long max_size;
     long free_size;
     long used_size;
@@ -386,24 +387,25 @@ public:
                 {
                     this->share_mutex->unlock_sharable();
                     this->handleExpireKey(*it);
-                    return nullptr;
                 }
-                this->share_mutex->unlock_sharable();
-                stdstring res= stdstring(value->c_str());
-                return res;
+                else
+                {
+                    this->share_mutex->unlock_sharable();
+                    stdstring res = stdstring(value->c_str());
+                    return res;
+                }
             }
             else
             {
                 this->share_mutex->unlock_sharable();
-                return nullptr;
             }
         }
         catch (const std::exception &e)
         {
             this->slog->error("get error key=", key);
             this->share_mutex->unlock_sharable();
-            return nullptr;
         }
+        return std::nullopt;
     }
     std::optional<stdstring> get(const stdstring &key)
     {
@@ -598,7 +600,8 @@ public:
     {
         this->slog->info("grow_count=" + std::to_string(this->grow_count));
     }
-    BoostShareCacheStat stat(){
+    BoostShareCacheStat stat()
+    {
         BoostShareCacheStat stat;
         this->share_mutex->lock_sharable();
         stat.max_size = this->max_size;
@@ -614,5 +617,3 @@ public:
         return stat;
     }
 };
-
-
