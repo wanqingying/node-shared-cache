@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <ctime>
 #include <fstream>
-#include <mach/mach.h>
 
 namespace nnd
 {
