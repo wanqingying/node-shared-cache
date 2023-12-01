@@ -45,7 +45,6 @@ struct BoostShareCacheStat
     long used_size;
     long total_size;
     long last_clean_time;
-    long mem_proc;
     int grow_count;
     int version;
     int key_cont;
@@ -612,7 +611,6 @@ public:
         stat.grow_count = this->grow_count;
         stat.version = *this->version;
         stat.key_cont = this->mymap->size();
-        stat.mem_proc = nnd::print_memory_usage_mac();
         this->share_mutex->unlock_sharable();
         return stat;
     }

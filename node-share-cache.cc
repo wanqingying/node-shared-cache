@@ -73,7 +73,6 @@ private:
         obj.Set("key_cont", stat.key_cont);
         obj.Set("last_clean_time", stat.last_clean_time);
         obj.Set("version", stat.version);
-        obj.Set("mem_proc", stat.mem_proc);
         return obj;
     }
     Napi::Value remove(const Napi::CallbackInfo &info)
